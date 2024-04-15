@@ -70,9 +70,6 @@
               <td>
                 <img src="images/{{ $candidate->file }}" class="" width="80" height="60" alt="Unable to load">
               </td>
-              
-              
-                
               <td>{{ $candidate->email }}</td>
               <td>{{ $candidate->password }}</td>
               <td>

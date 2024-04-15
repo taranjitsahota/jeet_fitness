@@ -27,24 +27,24 @@
         </div>
       </nav>
     
-      @if ($message = Session::get('success'))
+      {{-- @if ($message = Session::get('success'))
           <div class="alert alert-success alert-block">
           <strong>{{ $message }}</strong>
             </div>    
-      @endif
+      @endif --}}
 
     <form id="user_form" class="row p-4" method="POST" enctype="multipart/form-data" action="candidate/store" >
         @csrf
         <div class="col-md-6 ">
           <label for="name" class="form-label">Name</label>
-          <input type="text" value="{{ old('name') }}" class="form-control" name="name" id="user_name" placeholder="Please Enter Your Name">
+          <input type="text" value="" class="form-control" name="name" id="user_name" placeholder="Please Enter Your Name">
           @if($errors->has('name'))
           <span class="text-danger">{{ $errors->first('name') }}</span>
           @endif
         </div>
         <div class="col-md-6 ">
           <label for="addrress" class="form-label">Addrress</label>
-          <input type="text" value="{{ old('address') }}" class="form-control" name="address" id="user_address" placeholder="Flat No./Floor No./apartment">
+          <input type="text" value="" class="form-control" name="address" id="user_address" placeholder="Flat No./Floor No./apartment">
           @if($errors->has('address'))
           <span class="text-danger">{{ $errors->first('address') }}</span>
           @endif
@@ -54,7 +54,7 @@
           <label for="country" class="form-label">Country</label>
           <select name="country" id="country_dd" class="form-select">
             
-            <option value="{{ old('country') }}" selected disabled >Choose...</option>
+            <option value="" selected disabled >Choose...</option>
 
         
             @foreach ($countries as $data)
@@ -70,7 +70,7 @@
         <div class="col-md-4 p-2">
             <label for="state" class="form-label">State</label>
             <select name="state" id="state_dd" class="form-select">
-              <option value="{{ old('state') }}" selected disabled >Choose...</option>
+              <option value="" selected disabled >Choose...</option>
             </select>
             @if($errors->has('state'))
             <span class="text-danger">{{ $errors->first('state') }}</span>
@@ -104,21 +104,22 @@
           @endif
         </div>
         <div class="col-6 p-2">
+          <span id="check_usernumber"></span>
           <label for="number" class="form-label">Contact Number:</label>
-          <input type="text" class="form-control" value="{{ old('number') }}" name="number" id="user_number" placeholder="Enter Ten digits Number" >
+          <input type="text" class="form-control" value="" name="number" id="user_number" onInput="checkusernumber()" placeholder="Enter Ten digits Number" >
           @if($errors->has('number'))
           <span class="text-danger">{{ $errors->first('number') }}</span>
           @endif
         </div>
         <div class="col-6 ">
           <label for="age" class="form-label">Age</label>
-          <input type="text" class="form-control" name="age" value="{{ old('age') }}" id="user_age" placeholder="Enter Age">
+          <input type="text" class="form-control" name="age" value="" id="user_age" placeholder="Enter Age">
           @if($errors->has('age'))
           <span class="text-danger">{{ $errors->first('age') }}</span>
           @endif
         </div>
         <div class="input-group mb-3 p-2">
-            <input type="file" class="form-control" value="{{ old('file') }}" name="file" id="User_file">
+            <input type="file" class="form-control" value="" name="file" id="User_file">
             <label class="input-group-text" for="file">Upload</label>
             @if($errors->has('file'))
           <span class="text-danger">{{ $errors->first('file') }}</span>
@@ -127,7 +128,7 @@
        
           <div class="col-md-5 p-2 ">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" value="{{ old('email') }}" name="email" id="user_email" placeholder="Enter Email">
+            <input type="email" class="form-control" value="" name="email" id="user_email" placeholder="Enter Email">
             @if($errors->has('email'))
           <span class="text-danger">{{ $errors->first('email') }}</span>
           @endif
@@ -199,25 +200,70 @@
             $('#city_dd').select2({
             closeOnSelect: false
               });
-              $('#user_form').on('submit',function(yo){
-                yo.preventDefault();
+          //     $('#user_form').on('submit',function(yo){
+          //       yo.preventDefault();
                 
-                $.ajax({
-                  type: "POST",
-                  url: "{{ url('candidates/store') }}",
-                  data: new FormData(this),
-                  dataType: 'json',
-                  processData:false,
-                  contentType:false,
-                  success: function(result) {
-              window.location = "{{ route('candidates.index') }}"
-          },error: function(data) {
-            console.log('error');
-          }
-                });
-              });
+          //       $.ajax({
+          //         type: "POST",
+          //         url: "{{ url('candidates/store') }}",
+          //         data: new FormData(this),
+          //         dataType: 'json',
+          //         processData:false,
+          //         contentType:false,
+          //         success: function(result) {
+          //     window.location = "{{ route('candidates.index') }}";
+          // },error: function(data) {
+          //   console.log('error');
+          // }
+          //       });
+          //     });
 
-        });
+          // $(document).ready(function() {
+
+$("#user_form").on('submit', (function(e) {
+
+    e.preventDefault();
+
+    $(".form_error").html("");
+    $(".form_error").removeClass("alert alert-danger");
+
+
+    $.ajax({
+        type: "POST",
+        url: "{{ url('candidates/store') }}",
+        data: new FormData(this),
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(result) {
+            location.href = "{{ url('/') }}";
+        },
+        error: function(data) {
+            var responseData = data.responseJSON;
+            if (responseData.error_type == 'form') {
+                jQuery.each(responseData.errors, function(i, val) {
+                    $("#form-error-" + i).html(val);
+                });
+            }
+        }
+    });
+
+}));
+  function checkusernumber(){
+      jQuery.ajax({
+        url:"",
+        data:'usernumber='+$("#user_number").val(),
+        type:"POST",
+        success:function(data){
+          $("#check_usernumber").html(data);
+      },
+      error:function(){}
+      });
+    };
+});
+        
+        // });
     </script>
     <script>
       $(document).ready(function() {

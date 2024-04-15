@@ -36,7 +36,10 @@ class Mycontroller extends Controller
         'password' => 'required'
         ]);
         $data['candidates']=Candidate::store($request);
-        return back()->withSuccess($data);       
+
+        return true;
+        // redirect("/");
+        // back()->withSuccess($data);   
     }
     public function edit($id){
         $data['candidate']= Candidate::edit($id);
@@ -59,7 +62,7 @@ class Mycontroller extends Controller
             'email'=>'required|email',
          ]);
         $data=Candidate::update1($request);
-            return back()->withSuccess('Candidate info updated!!');  
+            return $data;
     }
     public function destroy($id){
         $data['candidate']=Candidate::dest($id);

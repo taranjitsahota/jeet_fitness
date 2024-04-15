@@ -24,6 +24,14 @@
         </div>
       </nav>
     
+      <?php
+      $citiesArray = [];
+      foreach ($candidate->city as $city_id) {
+          array_push($citiesArray, $city_id->city);
+        }
+        // dd($citiesArray );
+      ?>
+
       @if ($message = Session::get('success'))
           <div class="alert alert-success alert-block">
           <strong>{{ $message }}</strong>
@@ -77,10 +85,14 @@
           <div class="col-md-4 p-2">
             <label for="city" class="form-label">City</label>
             <select name="city[]" id="city_dd" class="form-control select2" multiple>
-              <option value=""selected disabled >Choose...</option>
-              @foreach ($cities as $city)
+              <option value=""disabled >Choose...</option>
+              {{-- @foreach ($cities as $city)
               <option value="{{ $city->id }}" @if(in_array($city,$citydata)) selected @endif>{{ $city->name }}</option>
+           @endforeach --}}
+           @foreach ($cities as $city)
+              <option value="{{ $city->id }}" @if (in_array($city->id,$citiesArray)) selected @endif>{{ $city->name }}</option>
            @endforeach
+            </select>
             </select>
             @if($errors->has('city'))
           <span class="text-danger">{{ $errors->first('city') }}</span>

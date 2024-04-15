@@ -70,6 +70,9 @@ class Candidate extends Model
         $users = DB::table('candidates')
         ->where('id',$id) 
         ->first();
+          $users->city = DB::table('multiplecities')
+        ->where('candidate_id',$id)
+        ->get();
         return $users;
     }
     public static function allState(){
@@ -97,24 +100,28 @@ class Candidate extends Model
             "age"=>$request->age,
             "email"=>$request->email
         ];
-        $data1 = DB::table('candidates')
-        ->where('candidates.id',$request->id)
+        $user = DB::table('candidates')
+        ->where('id',$request->id)
         ->update($data);
         $citydata=$request->input('city');
-        foreach($citydata as $city){
-            $user1=[
-                'candidate_id' =>$data1,
-                'state' =>$request->state,
-                'city' =>$city
-           ];
-           $users = DB::table('multiplecities')
-           ->where('candidates.id',$request->id)
+        // dd($request->id);
+        // dd($citydata);
+        //    dd($user);
+           $user=DB::table('multiplecities')
+           ->where('candidate_id',$request->id)
            ->delete();
-           dd($users);
+        
+            foreach($citydata as $city){
+                $user1=[
+                    'candidate_id' =>$request->id,
+                    'state' =>$request->state,
+                    'city' =>$city
+               ];
+        //    dd($users);
            $users = DB::table('multiplecities')
-           ->where('candidates.id',$request->id)
+           ->where('candidate_id',$request->id)
             ->insert($user1);
-        }
+         }
      return 'done';
     }
     public static function dest($id){
