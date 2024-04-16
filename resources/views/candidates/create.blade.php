@@ -104,13 +104,16 @@
           @endif
         </div>
         <div class="col-6 p-2">
-          <span id="check_usernumber"></span>
+          
           <label for="number" class="form-label">Contact Number:</label>
-          <input type="text" class="form-control" value="" name="number" id="user_number" onInput="checkusernumber()" placeholder="Enter Ten digits Number" >
+          <input type="text" class="form-control" value="" name="number" id="number" placeholder="Enter Ten digits Number" >
+          <span id="contactError" style="color: red;"></span>
           @if($errors->has('number'))
           <span class="text-danger">{{ $errors->first('number') }}</span>
           @endif
         </div>
+      
+
         <div class="col-6 ">
           <label for="age" class="form-label">Age</label>
           <input type="text" class="form-control" name="age" value="" id="user_age" placeholder="Enter Age">
@@ -150,9 +153,13 @@
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"> --}}
+
+<link rel="stylesheet" href="{{ asset('assets/select2.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('assets/jquery.js') }}"> --}}
+<script src="{{ asset('assets/jquery.js') }}"></script>
 
     <script>
         $(document).ready(function () {
@@ -200,25 +207,6 @@
             $('#city_dd').select2({
             closeOnSelect: false
               });
-          //     $('#user_form').on('submit',function(yo){
-          //       yo.preventDefault();
-                
-          //       $.ajax({
-          //         type: "POST",
-          //         url: "{{ url('candidates/store') }}",
-          //         data: new FormData(this),
-          //         dataType: 'json',
-          //         processData:false,
-          //         contentType:false,
-          //         success: function(result) {
-          //     window.location = "{{ route('candidates.index') }}";
-          // },error: function(data) {
-          //   console.log('error');
-          // }
-          //       });
-          //     });
-
-          // $(document).ready(function() {
 
 $("#user_form").on('submit', (function(e) {
 
@@ -250,20 +238,8 @@ $("#user_form").on('submit', (function(e) {
     });
 
 }));
-  function checkusernumber(){
-      jQuery.ajax({
-        url:"",
-        data:'usernumber='+$("#user_number").val(),
-        type:"POST",
-        success:function(data){
-          $("#check_usernumber").html(data);
-      },
-      error:function(){}
-      });
-    };
-});
-        
-        // });
+    });
+
     </script>
     <script>
       $(document).ready(function() {
@@ -321,6 +297,51 @@ $("#user_form").on('submit', (function(e) {
               },
           });
       });
+  </script>
+  <script>
+$(document).ready(function() {
+  $('#number').blur(function(e) {
+    
+    $.ajaxSetup({
+        headers:{
+          'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+        }
+      })
+
+      e.preventDefault();
+        var number = $('#number').val();
+        console.log(number);
+        $.ajax({
+          type: "POST",
+          dataType: 'json',
+          // cache:false,
+          // contentType : false,
+          //   processData : false,
+            url: "/checkContact",
+            data:{
+              number:number
+            },
+
+            success:function(data) {
+              console.log(data);
+                // if ($.isEmptyObject(data.error)) {
+                  if(data==0){
+                    // window.location="{{ route('candidates.index') }}"
+                    alert('new user');
+                    // $('#contactError').html('Contact number already exists.');
+                    // $('#submit').prop('disabled', true);
+                } else {
+                  // console.log(number)
+                  alert('contact already existed')
+                    // $('#contactError').html('');
+                    // $('#submit').prop('disabled', false);
+                // }
+              }
+            }
+        });
+    });
+
+  });
   </script>
 </body>
 </html>

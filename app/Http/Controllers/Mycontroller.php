@@ -120,8 +120,16 @@ function registerPost(Request $request){
 
     return back()->with("status", "Password changed successfully!");
   }
-  function join(){
-    $user=Candidate::join();
-    return $user;
-  }
+
+    public function checkContact(Request $request){
+        // dd($request->all());
+    $data= Candidate::checkContact($request);
+    return response()->json($data);
+}
+// public function checkContact(Request $request)
+// {
+//     $number = $request->number;
+//     $exists = Candidate::where('number', $number)->exists();
+//     return response()->json($exists);
+// }
 }

@@ -27,14 +27,14 @@ class Candidate extends Model
     }
     public static function create(){
         $users = DB::table('countries')
-        ->select('name','id') 
+        ->select('name','id')
         ->get();
         return $users;
     }
     public static function store($request){
         $fileName = time().'.'.$request->file->extension();
         $request->file->move(public_path('images'),$fileName);
-        
+       
         $data=array(
             "name"=>$request->name,
             "address"=>$request->address,
@@ -47,6 +47,7 @@ class Candidate extends Model
             "email"=>$request->email,
             "password"=>$request->password
         );
+        // dd($request->number);
         $candidateID = DB::table('candidates')
         ->insertGetId($data);
         $citydata=$request->input('city');
@@ -157,5 +158,41 @@ class Candidate extends Model
                 return 0; 
             }
     }
+    public static function checkContact($request)
+    {
+
+        $number = $request->number;
+        // dd($number);
+        $users=DB::table('candidates')
+        ->where('number',$number)
+        ->first();
+        // dd($users);
+        if ($users) {
+            return 1; // number exists
+        } else {
+            return 0; //  number does not exist
+        }
+    }
+
+ 
 }
+
+
+//     public static function checkContact(Request $request) // Add Request to method parameters
+// {
+//     $number = $request->contact_number; // Change $request->number to $request->contact_number
+//     $users = DB::table('candidates')
+//         ->where('contact_number', $number) // Change 'number' to 'contact_number'
+//         ->first();
+//     if ($users) {
+//         return 1; // number exists
+//     } else {
+//         return 0; // number does not exist
+//     }
+// }
+
+
+
+
+
 

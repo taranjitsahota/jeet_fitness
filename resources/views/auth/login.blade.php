@@ -132,7 +132,7 @@
             alert('Not registered or invalid credentials')
           } 
            
-          }
+        }
           else{
             alert('Not registered or invalid credentials')
           }
