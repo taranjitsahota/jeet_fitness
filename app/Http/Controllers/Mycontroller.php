@@ -42,7 +42,10 @@ class Mycontroller extends Controller
         // back()->withSuccess($data);   
     }
     public function edit($id){
-        $data['candidate']= Candidate::edit($id);
+        $userdata=Candidate::edit($id);
+        $data['candidate']= $userdata;
+        // dd($data);
+        $data['cities'] = Candidate::statecity($userdata->state);
         $data['countries']=Candidate::create();
         $data['states']=Candidate::allState();
         $data['cities']=Candidate::allCities();
@@ -126,10 +129,5 @@ function registerPost(Request $request){
     $data= Candidate::checkContact($request);
     return response()->json($data);
 }
-// public function checkContact(Request $request)
-// {
-//     $number = $request->number;
-//     $exists = Candidate::where('number', $number)->exists();
-//     return response()->json($exists);
-// }
+
 }

@@ -33,7 +33,7 @@
             </div>    
       @endif --}}
 
-    <form id="user_form" class="row p-4" method="POST" enctype="multipart/form-data" action="candidate/store" >
+    <form id="user_form" name="user_form" class="row p-4" onsubmit="return validateForm()" method="POST" enctype="multipart/form-data" action="candidate/store" >
         @csrf
         <div class="col-md-6 ">
           <label for="name" class="form-label">Name</label>
@@ -106,7 +106,7 @@
         <div class="col-6 p-2">
           
           <label for="number" class="form-label">Contact Number:</label>
-          <input type="text" class="form-control" value="" name="number" id="number" placeholder="Enter Ten digits Number" >
+          <input type="tel" class="form-control" value="" name="number" maxlength="10" id="number" placeholder="Enter Ten digits Number" >
           <span id="contactError" style="color: red;"></span>
           @if($errors->has('number'))
           <span class="text-danger">{{ $errors->first('number') }}</span>
@@ -116,7 +116,7 @@
 
         <div class="col-6 ">
           <label for="age" class="form-label">Age</label>
-          <input type="text" class="form-control" name="age" value="" id="user_age" placeholder="Enter Age">
+          <input type="text" class="form-control" name="age" value="" id="user_age" maxlength="2" placeholder="Enter Age">
           @if($errors->has('age'))
           <span class="text-danger">{{ $errors->first('age') }}</span>
           @endif
@@ -146,7 +146,7 @@
         
         <div class="col-12 p-2">
         
-        <button id="submit" name="submit" class="btn btn-dark mt-2" >Sign in</button>
+        <button type="submit" value="submit" id="submit" name="submit" class="btn btn-dark mt-2" >Sign in</button>
   
         </div>
       </form>
@@ -161,6 +161,51 @@
 {{-- <link rel="stylesheet" href="{{ asset('assets/jquery.js') }}"> --}}
 <script src="{{ asset('assets/jquery.js') }}"></script>
 
+
+  {{-- // function myFunction() {
+  //   // Get the value of the input field with id="numb"
+  //   // let x = document.getElementById("city_dd").value;
+  //   let x = document.forms["myForm"]["city_dd"].value;
+  //   // If x is Not a Number or less than one or greater than 10
+  //   let text;
+  //   if () {
+  //     text = "Input not valid";
+  //   } else {
+  //     text = "Input OK";
+  //   }
+  //   document.getElementById("demo").innerHTML = text;
+  // } --}}
+  {{-- <script>
+  function validateForm() {
+  let x = document.forms["city_dd"]["city"].value;
+  if (x === "") {
+    alert("name must be filled out");
+    return false;
+  }
+}
+</script> --}}
+
+  
+
+
+<script>
+  document.getElementById("user_age").addEventListener("keypress", function(event) {
+  var key = event.keyCode;
+  // Only allow numbers to be entered
+  if (key < 48 || key > 57) {
+    event.preventDefault();
+  }
+});
+</script>
+<script>
+  document.getElementById("number").addEventListener("keypress", function(event) {
+  var key = event.keyCode;
+  // Only allow numbers to be entered
+  if (key < 48 || key > 57) {
+    event.preventDefault();
+  }
+});
+</script>
     <script>
         $(document).ready(function () {
             $('#country_dd').on('change', function () {
@@ -259,8 +304,7 @@ $("#user_form").on('submit', (function(e) {
                       required: true
                   },
                   city: {
-                      required: true,
-                      digits: true 
+                      required: true, 
                   },
                   gender: {
                       required: true
@@ -285,7 +329,7 @@ $("#user_form").on('submit', (function(e) {
               messages: {
                 name : 'Required',
                 address: 'Required',
-                country : 'Required',
+                country : 'Required|array',
                 state : 'Required',
                 city: 'Required',
                 gender: 'Required',
@@ -310,7 +354,7 @@ $(document).ready(function() {
 
       e.preventDefault();
         var number = $('#number').val();
-        console.log(number);
+        // console.log(number);
         $.ajax({
           type: "POST",
           dataType: 'json',
@@ -323,18 +367,18 @@ $(document).ready(function() {
             },
 
             success:function(data) {
-              console.log(data);
+              // console.log(data);
                 // if ($.isEmptyObject(data.error)) {
                   if(data==0){
                     // window.location="{{ route('candidates.index') }}"
-                    alert('new user');
-                    // $('#contactError').html('Contact number already exists.');
-                    // $('#submit').prop('disabled', true);
+                    // alert('new user');
+                    $('#contactError').html('');
+                    $('#submit').prop('disabled', false);
                 } else {
                   // console.log(number)
-                  alert('contact already existed')
-                    // $('#contactError').html('');
-                    // $('#submit').prop('disabled', false);
+                  // alert('contact already existed')
+                    $('#contactError').html('Contact number already exists.');
+                    $('#submit').prop('disabled', true);
                 // }
               }
             }
@@ -342,6 +386,8 @@ $(document).ready(function() {
     });
 
   });
-  </script>
+  </script> 
 </body>
 </html>
+
+

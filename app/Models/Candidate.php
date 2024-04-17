@@ -23,6 +23,13 @@ class Candidate extends Model
         ->leftJoin('cities','cities.id','=','candidates.city')
         ->whereNULL('is_deleted')
         ->get();
+        // $query = user::select("*")->toSql();
+        // dd($query);
+        // $query=DB::table('candidates')->toSql();
+        // dd($query);
+        // $query=$users->toSql();
+        // dd($query);
+        // dd($users);
         return $users;
     }
     public static function create(){
@@ -40,6 +47,7 @@ class Candidate extends Model
             "address"=>$request->address,
             "country"=>$request->country,
             "state"=>$request->state,
+            // "city"=>$request->city,
             "gender"=>$request->gender,
             "number"=>$request->number,
             "age"=>$request->age,
@@ -60,6 +68,7 @@ class Candidate extends Model
            ];
             $users = DB::table('multiplecities')
             ->insert($user1);
+            // dd($user1);
         }
         if($candidateID){
             return 'Candidate registred!!';
@@ -71,6 +80,7 @@ class Candidate extends Model
         $users = DB::table('candidates')
         ->where('id',$id) 
         ->first();
+        // dd($users);
           $users->city = DB::table('multiplecities')
         ->where('candidate_id',$id)
         ->get();
@@ -99,8 +109,10 @@ class Candidate extends Model
             "gender"=>$request->gender,
             "number"=>$request->number,
             "age"=>$request->age,
+            // "file"=>$fileName,
             "email"=>$request->email
         ];
+        // dd($data);
         $user = DB::table('candidates')
         ->where('id',$request->id)
         ->update($data);
@@ -141,6 +153,7 @@ class Candidate extends Model
         $users = DB::table('cities')
         ->where('state_id', $state_id)
         ->get();
+        // dd($users);
         return $users;
     }
     public static function loginPost($request){
@@ -173,23 +186,16 @@ class Candidate extends Model
             return 0; //  number does not exist
         }
     }
-
- 
+    public static function statecity($state_id){
+        $users = DB::table('cities')
+        ->where('state_id',$state_id)
+        ->get();
+        // dd($users);
+        return $users;
+    }
+    
 }
 
-
-//     public static function checkContact(Request $request) // Add Request to method parameters
-// {
-//     $number = $request->contact_number; // Change $request->number to $request->contact_number
-//     $users = DB::table('candidates')
-//         ->where('contact_number', $number) // Change 'number' to 'contact_number'
-//         ->first();
-//     if ($users) {
-//         return 1; // number exists
-//     } else {
-//         return 0; // number does not exist
-//     }
-// }
 
 
 

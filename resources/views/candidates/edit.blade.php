@@ -61,7 +61,7 @@
 
         <div class="col-md-4 p-2">
           <label for="country" class="form-label">Country</label>
-          <select name="country" id="country-dd" class="form-select">
+          <select name="country" id="country_dd" class="form-select">
             @foreach ($countries as $country)
                <option value="{{ $country->id }}" @if($country->id==$candidate->country) selected @endif>{{ $country->name }}</option>
             @endforeach
@@ -72,7 +72,7 @@
         </div>
         <div class="col-md-4 p-2">
             <label for="state" class="form-label">State</label>
-            <select name="state" id="state-dd" class="form-select">
+            <select name="state" id="state_dd" class="form-select">
               <option value="{{ old('state') }}" selected disabled >Choose...</option>
               @foreach ($states as $state)
               <option value="{{ $state->id }}" @if($state->id==$candidate->state) selected @endif>{{ $state->name }}</option>
@@ -86,12 +86,16 @@
             <label for="city" class="form-label">City</label>
             <select name="city[]" id="city_dd" class="form-control select2" multiple>
               <option value=""disabled >Choose...</option>
-              {{-- @foreach ($cities as $city)
-              <option value="{{ $city->id }}" @if(in_array($city,$citydata)) selected @endif>{{ $city->name }}</option>
-           @endforeach --}}
-           @foreach ($cities as $city)
+            
+                    
+                    @foreach ($cities as $city)
+                        @if ($city->state_id == $candidate->state)
+                            <option value="{{ $city->id }}" @if (in_array($city->id, $citiesArray)) selected @endif>{{ $city->name }}</option>
+                        @endif
+                    @endforeach
+           {{-- @foreach ($cities as $city)
               <option value="{{ $city->id }}" @if (in_array($city->id,$citiesArray)) selected @endif>{{ $city->name }}</option>
-           @endforeach
+           @endforeach --}}
             </select>
             </select>
             @if($errors->has('city'))
@@ -118,14 +122,14 @@
         </div>
         <div class="col-6 p-2">
           <label for="number" class="form-label">Contact Number:</label>
-          <input type="text" class="form-control" value="{{ old('number',$candidate->number) }}" name="number" id="user_number" placeholder="Enter Ten digits Number" >
+          <input type="text" class="form-control" maxlength="10" value="{{ old('number',$candidate->number) }}" name="number" id="user_number" placeholder="Enter Ten digits Number" >
           @if($errors->has('number'))
           <span class="text-danger">{{ $errors->first('number') }}</span>
           @endif
         </div>
         <div class="col-6 ">
           <label for="age" class="form-label">Age</label>
-          <input type="text" class="form-control" name="age" value="{{ old('age',$candidate->age) }}" id="user_age" placeholder="Enter Age">
+          <input type="text" class="form-control" name="age" maxlength="2" value="{{ old('age',$candidate->age) }}" id="user_age" placeholder="Enter Age" >
           @if($errors->has('age'))
           <span class="text-danger">{{ $errors->first('age') }}</span>
           @endif
@@ -140,7 +144,6 @@
           <span class="text-danger">{{ $errors->first('file') }}</span>
           @endif
           </div>
-       
           <div class="col-md-6p-2 ">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" value="{{ old('email',$candidate->email) }}" name="email" id="user_email" placeholder="Enter Email">
@@ -158,11 +161,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+<script>
+  document.getElementById("user_age").addEventListener("keypress", function(event) {
+  var key = event.keyCode;
+  // Only allow numbers to be entered
+  if (key < 48 || key > 57) {
+    event.preventDefault();
+  }
+});
+</script>
+<script>
+  document.getElementById("user_number").addEventListener("keypress", function(event) {
+  var key = event.keyCode;
+  if (key < 48 || key > 57) {
+    event.preventDefault();
+  }
+});
+</script>
       <script>
           $(document).ready(function () {
-              $('#country-dd').on('change', function () {
+              $('#country_dd').on('change', function () {
                   var idCountry = this.value;
-                  $("#state-dd").html('');
+                  $("#state_dd").html('');
                   $.ajax({
                       url: "{{url('api/fetch-states')}}",
                       type: "POST",
@@ -172,16 +192,16 @@
                       },
                       dataType: 'json',
                       success: function (result) {
-                          $('#state-dd').html('<option value="">Select State</option>');
+                          $('#state_dd').html('<option value="">Select State</option>');
                           $.each(result.states, function (key, value) {
-                              $("#state-dd").append('<option value="' + value
+                              $("#state_dd").append('<option value="' + value
                                   .id + '">' + value.name + '</option>');
                           });
                           $('#city_dd').html('<option value="">Select City</option>');
                       }
                   });
               });
-              $('#state-dd').on('change', function () {
+              $('#state_dd').on('change', function () {
                   var idState = this.value;
                   $("#city_dd").html('');
                   $.ajax({
@@ -221,6 +241,7 @@
           }
                 });
               });
+             
           });
       </script>
 </body>
