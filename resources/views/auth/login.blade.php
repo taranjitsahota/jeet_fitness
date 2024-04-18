@@ -126,7 +126,7 @@
          
           if($.isEmptyObject(data.error)){
             if(data.users==1){
-              window.location="{{ route('candidates.index') }}"
+              // window.location="{{ route('candidates.index') }}"
             }
             else{
             alert('Not registered or invalid credentials')

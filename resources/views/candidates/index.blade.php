@@ -35,6 +35,9 @@
       <div class="container">
         <a href="/create" class="btn btn-dark mt-2">New Registration</a>
       </div>
+      <div class="container">
+        <a href="{{ url("/logout") }}" class="btn btn-dark mt-2">Logout</a>
+      </div>
     
 <div>
     <table class="table container table-hover mt-2">
@@ -56,14 +59,16 @@
             </tr>
           </thead>
           <tbody>
+            {{-- dd($candidates); --}}
             @foreach ($candidates as $candidate)
+            {{-- {{  dd($candidate); }} --}}
             <tr>
               <td>{{ $loop->index+1 }}</td>   
               <td>{{ $candidate->name }}</td>
               <td>{{ $candidate->address }}</td>
               <td>{{  $candidate->Countries_name }}</td>
               <td>{{  $candidate->state_name }}</td>
-              <td>{{ $candidate->city_name }}</td>
+              <td>{{ $candidate->city }}</td>
               <td>{{ $candidate->gender }}</td>
               <td>{{ $candidate->number}}</td>
               <td>{{ $candidate->age }}</td>

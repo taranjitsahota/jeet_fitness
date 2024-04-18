@@ -9,12 +9,15 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 use App\Models\{country,state, city};
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 class Mycontroller extends Controller
 
 {
     public function index(){
         $user1['candidates'] =  Candidate::index();
+        // dd($user1);
         return view('candidates.index',$user1);
     }
     public function create(){
@@ -82,13 +85,28 @@ class Mycontroller extends Controller
         return response()->json($data);
     }
 public function login(){
+     if(session::has('email')){
+    return redirect("/");
+    }
+    else{
+        return view("auth.login");
+    }
     return view("auth.login");
+}
+public function logout(){
+    Session::flush();
+    return redirect("/login");
 }
     public function loginPost(Request $request){
 
         $data['users']= Candidate::loginPost($request);
+        // return $data;
+        // dd($data);
         return response()->json($data);
     }
+
+
+    
 public function register(){
     return view("auth.register");
 }

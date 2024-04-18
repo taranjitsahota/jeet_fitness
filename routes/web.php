@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Mycontroller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Auth_controller;
 
@@ -23,3 +24,6 @@ Route::post("/register",[Mycontroller::class,"registerPost"])->name("register.po
 Route::get("/changepassword",[Mycontroller::class,"changepassword"])->name("changepassword");
 Route::post("/changepassword",[Mycontroller::class,"updatepassword"])->name("updatepassword");
 Route::post('/checkContact', [Mycontroller::class,"checkContact"])->name("checkContact");
+Route::get('logout',[Mycontroller::class,"logout"]);
+
+
