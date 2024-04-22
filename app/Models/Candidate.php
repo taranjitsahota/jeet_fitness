@@ -11,10 +11,28 @@ class Candidate extends Model
 {
     use HasFactory;
 
+    public static function loginindex(){
+        $email = session()->get('email');
+        $user =DB::table('users')
+        ->where('email', $email)
+        ->first();
 
+        if($user->role==1){
+        $users = DB::table('users')
+        ->get();
+        }
+        return $users;
+    }
     public static function index(){
         // DB::enableQueryLog();
-        $users = DB::table('candidates')
+
+        // $email = session()->get('email');
+        // $user =DB::table('users')
+        // ->where('email', $email)
+        // ->first();
+
+        // if($user->role==1){
+            $users = DB::table('candidates')
         ->select("candidates.*",
          "countries.name as Countries_name",
         "states.name as state_name"
@@ -23,16 +41,7 @@ class Candidate extends Model
          ->Join('countries','countries.id','=','candidates.country')
              ->Join('states','states.id','=','candidates.state')
             //  ->join('cities','cities.id','=','candidates.city')
-            
         ->get();
-        
-        // $query=(DB::getQueryLog());
-        // dd($query);
-        // ->tosql();
-        // dd($users->tosql());
-        // $query=$users->tosql();
-        // dd($query);
-        // dd($users);
         foreach($users as $user){
             // dd($user);
             $cityArray=[];
@@ -50,58 +59,30 @@ class Candidate extends Model
             $user->city=$usercity;
             // $query=$users->tosql;
         }
-       
+    
+        // }else{
+        //     $users = DB::table('candidates')
+        // ->select("candidates.*",
+        //  "countries.name as Countries_name",
+        // "states.name as state_name"
+        // //  "cities.name as city_name"
+        //  )
+        //  ->Join('countries','countries.id','=','candidates.country')
+        //      ->Join('states','states.id','=','candidates.state')
+        //     //  ->join('cities','cities.id','=','candidates.city')
+        //     ->where('candidates.id', 1)
+        //     ->get();
+        // }
+        // $query=(DB::getQueryLog());
+        // dd($query);
+        // ->tosql();
+        // dd($users->tosql());
+        // $query=$users->tosql();
+        // dd($query);
+        // dd($users);
         // dd($users);
         return $users;
     }
-    
-    // public static function index(){
-    //     $users = DB::table('candidates')
-    //     ->select("candidates.*",
-    //     "countries.name as Countries_name",
-    //     "states.name as state_name",
-    //     "cities.name as city_name"
-    //     )
-    //     ->leftJoin('countries','countries.id','=','candidates.country')
-    //     ->leftJoin('states','states.id','=','candidates.state')
-    //     ->leftJoin('cities','cities.id','=','candidates.city')
-    //     ->whereNULL('is_deleted')
-    //     ->get();
-    //     // $query = user::select("*")->toSql();
-    //     // dd($query);
-    //     // $query=DB::table('candidates')->toSql();
-    //     // dd($query);
-    //     // $query=$users->toSql();
-    //     // dd($query);
-    //     // dd($users);
-    //     return $users;
-    // }
-    // public static function index(){
-    //     $users = DB::table('candidates')
-    //     ->select("candidates.*",
-    //     "countries.name as Countries_name",
-    //     "states.name as state_name",
-    //     "cities.name as city_name"
-    //     )
-    //     ->leftJoin('countries','countries.id','=','candidates.country')
-    //     ->leftJoin('states','states.id','=','candidates.state')
-    //     ->leftJoin('cities','cities.id','=','candidates.city')
-    //     ->whereNULL('is_deleted')
-    //     ->get();
-    //     $users= DB::table('multiplecities')
-    //     ->select("multiplecities.*",)
-    //     // $query = user::select("*")->toSql();
-    //     // dd($query);
-    //     // $query=DB::table('candidates')->toSql();
-    //     // dd($query);
-    //     // $query=$users->toSql();
-    //     // dd($query);
-    //     // dd($users);
-    //     return $users;
-    // }
-    
-        // ===================================================
-   
     public static function create(){
         $users = DB::table('countries')
         ->select('name','id')
@@ -139,7 +120,8 @@ class Candidate extends Model
             ->insert($user1);
             // dd($user1);
         }
-        if($candidateID){
+        // dd($data);
+        if($data){
             return 'Candidate registred!!';
         }else{
             return 'Candidate not registred!!';
@@ -225,17 +207,28 @@ class Candidate extends Model
         // dd($users);
         return $users;
     }
-    
+    // public static function registerpost($request){
+    //     $data=[
+    //     $name = $request->name,
+    //     $email = $request->email,
+    //     $password = Hash::make($request->password)
+    //     ];
+    //     $user = DB::table('users')
+    //     ->insert($data);
+        // if($user)
+    // }
     public static function loginPost($request){
         $email = $request->input('email');
     $password = $request->input('password');
             $users=DB::table('users')
             ->where('email',$email)->first();
+
             // dd($users);
             // Session::put('email',$users->email);
+            // Session::put('password',$users->password);
             if ($users) {
                 if (Hash::check($password, $users->password)) {
-                    return 1;
+                    return $users;
                 } else {
                     return 0;
                 }

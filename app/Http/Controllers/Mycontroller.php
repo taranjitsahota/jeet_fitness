@@ -13,10 +13,16 @@ use Illuminate\Support\Facades\Session;
 
 
 class Mycontroller extends Controller
-
 {
+    public function loginindex(){
+        $user['users']=Candidate::loginindex();
+        return view('auth.loginindex',$user);
+    }
     public function index(){
         $user1['candidates'] =  Candidate::index();
+       
+        // dd($user);
+        // dd($email);
         // dd($user1);
         return view('candidates.index',$user1);
     }
@@ -85,22 +91,35 @@ class Mycontroller extends Controller
         return response()->json($data);
     }
 public function login(){
-     if(session::has('email')){
-    return redirect("/");
+     if(session::has('email','password')){
+    return redirect("/index");
     }
     else{
         return view("auth.login");
     }
+    
     return view("auth.login");
 }
 public function logout(){
     Session::flush();
-    return redirect("/login");
+    return redirect("/");
 }
     public function loginPost(Request $request){
+        $request->validate([
+            "email"=>"required|email",
+            "password"=>['required', Password::min(8)->mixedCase()],
+         ]);
 
-        $data['users']= Candidate::loginPost($request);
-        // return $data;
+        $data= Candidate::loginPost($request);
+        if($data){
+        Session::put('email',$data->email);
+        Session::put('password',$data->password);
+        Session::put('role',$data->role);
+
+    }
+    // if($data){
+    //          Session::put('role',$data->role);
+    //      }
         // dd($data);
         return response()->json($data);
     }
@@ -114,12 +133,14 @@ function registerPost(Request $request){
     $request->validate([
        "name"=>"required",
        "email"=>"required|email",
-       "password"=>['required', Password::min(8)->mixedCase()]
+       "password"=>['required', Password::min(8)->mixedCase()],
+   
     ]);
     $user = new User();
     $user->name = $request->name;
     $user->email = $request->email;
     $user->password = Hash::make($request->password);
+    $user->role = $request->role;
       if($user->save()){
            return redirect(route("login"))->with ("success","User registered successfully");
       }

@@ -62,13 +62,20 @@
                       <span class="text-danger">{{ $errors->first('password') }}</span>
                    @endif
                     </div>
-  
+                    <label for="role">Role</label>
+                    <div class="form-check">
+                      <input class="form-check-input" value="1" type="radio" name="role" id="role">
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        Admin
+                      </label>
+                    </div>
+                   
                     <div class="pt-1 mb-4">
                       <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
                     </div>
   
                     
-                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Have an account? <a href="/login"
+                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Have an account? <a href="/"
                         style="color: #393f81;">Login here</a></p>
                     <a href="#!" class="small text-muted">Terms of use.</a>
                     <a href="#!" class="small text-muted">Privacy policy</a>
@@ -97,12 +104,14 @@
                 password: {
                     required: true
                 },
+               
 
             },
             messages: {
               name: 'Required',
               email: 'Required',
-              password: 'Required'
+              password: 'Required',
+            
              
 
             },

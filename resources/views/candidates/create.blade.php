@@ -19,7 +19,7 @@
 
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid ">
-          <a class="navbar-brand text-light" href="/">Registrations</a>
+          <a class="navbar-brand text-light" href="/index">Registrations</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon "></span>
           </button>
@@ -42,6 +42,8 @@
           <span class="text-danger">{{ $errors->first('name') }}</span>
           @endif
         </div>
+        {{-- <div>{{ URL::current() }}</div> --}}
+        {{-- <div>{{ URL::full() }}</div> --}}
         <div class="col-md-6 ">
           <label for="addrress" class="form-label">Addrress</label>
           <input type="text" value="" class="form-control" name="address" id="user_address" placeholder="Flat No./Floor No./apartment">
@@ -155,7 +157,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"> --}}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="{{ asset('assets/select2.css') }}">
 {{-- <link rel="stylesheet" href="{{ asset('assets/jquery.js') }}"> --}}
@@ -270,7 +272,7 @@ $("#user_form").on('submit', (function(e) {
         contentType: false,
         processData: false,
         success: function(result) {
-            location.href = "{{ url('/') }}";
+            location.href = "{{ url('/index') }}";
         },
         error: function(data) {
             var responseData = data.responseJSON;
@@ -329,7 +331,7 @@ $("#user_form").on('submit', (function(e) {
               messages: {
                 name : 'Required',
                 address: 'Required',
-                country : 'Required|array',
+                country : 'Required',
                 state : 'Required',
                 city: 'Required',
                 gender: 'Required',

@@ -50,7 +50,7 @@
                       <span class="text-danger">{{ $errors->first('password') }}</span>
                    @endif
                     </div>
-  
+                    
                     <div class="pt-1 mb-4">
                       <button class="btn btn-dark btn-lg btn-block" id="login" type="submit">Login</button>
                     </div>
@@ -82,17 +82,15 @@
                 password: {
                     required: true
                 },
-
+                
             },
             messages: {
               email: 'Required',
-              password: 'Required'
-             
-
+              password: 'Required',
             },
-            submitHandler: function(form) {
-                form.submit();
-            }
+            // submitHandler: function(form) {
+            //     form.submit();
+            // }
         });
     });
 </script>
@@ -111,22 +109,21 @@
       e.preventDefault();
       var email = $('#email').val();
       var password = $('#password').val();
-
       $.ajax({
         url:"{{ url('login') }}",
         type:'POST',
 
         data:{
           email:email,
-          password:password
-
+          password:password,
         },
         success:function(data){
         console.log(data.users);
          
           if($.isEmptyObject(data.error)){
-            if(data.users==1){
-              // window.location="{{ route('candidates.index') }}"
+            if(data){
+              // console.log($users);
+              window.location="{{ route('candidates.index') }}"
             }
             else{
             alert('Not registered or invalid credentials')
