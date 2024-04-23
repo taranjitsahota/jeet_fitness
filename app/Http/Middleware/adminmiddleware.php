@@ -4,10 +4,11 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
-class usermiddleware
 
+class adminmiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,12 +18,15 @@ class usermiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // dd("hello");
-        // dd($request);
         if(session::has('email','password')){
-        return $next($request);
+            if(session::has('role')){
+                return $next($request);
+            }
         }
-        return redirect()->route('login');
+        abort('401');
+        // else{
+        //     return redirect ('/noaccess');
+        //     die;
+        // }
     }
 }
-
-

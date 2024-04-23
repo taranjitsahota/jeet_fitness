@@ -13,6 +13,7 @@ class Candidate extends Model
 
     public static function loginindex(){
         $email = session()->get('email');
+        
         $user =DB::table('users')
         ->where('email', $email)
         ->first();
@@ -84,6 +85,7 @@ class Candidate extends Model
         return $users;
     }
     public static function create(){
+        $role = session()->get('role');
         $users = DB::table('countries')
         ->select('name','id')
         ->get();

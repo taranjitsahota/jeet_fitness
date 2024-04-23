@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Session;
 
 class Mycontroller extends Controller
 {
+    public function admin(){
+        return view('auth.admin');
+    }
     public function loginindex(){
         $user['users']=Candidate::loginindex();
         return view('auth.loginindex',$user);
