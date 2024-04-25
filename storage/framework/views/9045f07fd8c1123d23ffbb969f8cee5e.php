@@ -32,55 +32,55 @@
         // dd($citiesArray );
       ?>
 
-      @if ($message = Session::get('success'))
+      <?php if($message = Session::get('success')): ?>
           <div class="alert alert-success alert-block">
-          <strong>{{ $message }}</strong>
+          <strong><?php echo e($message); ?></strong>
             </div>    
       
           
-      @endif
+      <?php endif; ?>
 
-      <h3 class="text-muted">Candidate Edit #{{ $candidate->name }}</h3>
-    <form id="user_form" class="container row p-4" method="POST" enctype="multipart/form-data" action="/candidates/update/{{ $candidate->id }}" >
-        @csrf
+      <h3 class="text-muted">Candidate Edit #<?php echo e($candidate->name); ?></h3>
+    <form id="user_form" class="container row p-4" method="POST" enctype="multipart/form-data" action="/candidates/update/<?php echo e($candidate->id); ?>" >
+        <?php echo csrf_field(); ?>
         <div class="col-md-6 ">
-          <input type="hidden" name='id' value="{{$candidate->id }}">
+          <input type="hidden" name='id' value="<?php echo e($candidate->id); ?>">
           <label for="name" class="form-label">Name</label>
-          <input type="text" value="{{ old('name',$candidate->name) }}" class="form-control" name="name" id="user_name" placeholder="Please Enter Your Name">
-          @if($errors->has('name'))
-          <span class="text-danger">{{ $errors->first('name') }}</span>
-          @endif
+          <input type="text" value="<?php echo e(old('name',$candidate->name)); ?>" class="form-control" name="name" id="user_name" placeholder="Please Enter Your Name">
+          <?php if($errors->has('name')): ?>
+          <span class="text-danger"><?php echo e($errors->first('name')); ?></span>
+          <?php endif; ?>
         </div>
         <div class="col-md-6 ">
           <label for="addrress" class="form-label">Addrress</label>
-          <input type="text" value="{{ old('address',$candidate->address ) }}" class="form-control" name="address" id="user_address" placeholder="Flat No./Floor No./apartment">
-          @if($errors->has('address'))
-          <span class="text-danger">{{ $errors->first('address') }}</span>
-          @endif
+          <input type="text" value="<?php echo e(old('address',$candidate->address )); ?>" class="form-control" name="address" id="user_address" placeholder="Flat No./Floor No./apartment">
+          <?php if($errors->has('address')): ?>
+          <span class="text-danger"><?php echo e($errors->first('address')); ?></span>
+          <?php endif; ?>
         </div>
 
         <div class="col-md-4 p-2">
           <label for="country" class="form-label">Country</label>
           <select name="country" id="country_dd" class="form-select">
-            @foreach ($countries as $country)
-               <option value="{{ $country->id }}" @if($country->id==$candidate->country) selected @endif>{{ $country->name }}</option>
-            @endforeach
+            <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+               <option value="<?php echo e($country->id); ?>" <?php if($country->id==$candidate->country): ?> selected <?php endif; ?>><?php echo e($country->name); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </select>
-          @if($errors->has('country'))
-          <span class="text-danger">{{ $errors->first('country') }}</span>
-          @endif
+          <?php if($errors->has('country')): ?>
+          <span class="text-danger"><?php echo e($errors->first('country')); ?></span>
+          <?php endif; ?>
         </div>
         <div class="col-md-4 p-2">
             <label for="state" class="form-label">State</label>
             <select name="state" id="state_dd" class="form-select">
-              <option value="{{ old('state') }}" selected disabled >Choose...</option>
-              @foreach ($states as $state)
-              <option value="{{ $state->id }}" @if($state->id==$candidate->state) selected @endif>{{ $state->name }}</option>
-           @endforeach
+              <option value="<?php echo e(old('state')); ?>" selected disabled >Choose...</option>
+              <?php $__currentLoopData = $states; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $state): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+              <option value="<?php echo e($state->id); ?>" <?php if($state->id==$candidate->state): ?> selected <?php endif; ?>><?php echo e($state->name); ?></option>
+           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
-            @if($errors->has('state'))
-            <span class="text-danger">{{ $errors->first('state') }}</span>
-            @endif
+            <?php if($errors->has('state')): ?>
+            <span class="text-danger"><?php echo e($errors->first('state')); ?></span>
+            <?php endif; ?>
           </div>
           <div class="col-md-4 p-2">
             <label for="city" class="form-label">City</label>
@@ -88,68 +88,66 @@
               <option value=""disabled >Choose...</option>
             
                     
-                    @foreach ($cities as $city)
-                        @if ($city->state_id == $candidate->state)
-                            <option value="{{ $city->id }}" @if (in_array($city->id, $citiesArray)) selected @endif>{{ $city->name }}</option>
-                        @endif
-                    @endforeach
-           {{-- @foreach ($cities as $city)
-              <option value="{{ $city->id }}" @if (in_array($city->id,$citiesArray)) selected @endif>{{ $city->name }}</option>
-           @endforeach --}}
+                    <?php $__currentLoopData = $cities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $city): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($city->state_id == $candidate->state): ?>
+                            <option value="<?php echo e($city->id); ?>" <?php if(in_array($city->id, $citiesArray)): ?> selected <?php endif; ?>><?php echo e($city->name); ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+           
             </select>
             </select>
-            @if($errors->has('city'))
-          <span class="text-danger">{{ $errors->first('city') }}</span>
-          @endif
+            <?php if($errors->has('city')): ?>
+          <span class="text-danger"><?php echo e($errors->first('city')); ?></span>
+          <?php endif; ?>
           </div>
           <label for="gender">Gender:</label>
           <div>
             <div class="form-check p-2">
-            <input class="form-check-input p-2" value="male" {{ $candidate->gender == 'male' ? 'checked' : ''}}  type="radio" name="gender">
+            <input class="form-check-input p-2" value="male" <?php echo e($candidate->gender == 'male' ? 'checked' : ''); ?>  type="radio" name="gender">
             <label class="form-check-label" for="user_gender">
               Male
             </label>
           </div>
           <div class="form-check p-2">
-            <input class="form-check-input p-2" value="female" {{ $candidate->gender == 'female' ? 'checked' : ''}} type="radio" name="gender">
+            <input class="form-check-input p-2" value="female" <?php echo e($candidate->gender == 'female' ? 'checked' : ''); ?> type="radio" name="gender">
             <label class="form-check-label" for="user_gender">
               Female
             </label>
           </div>
-          @if($errors->has('gender'))
-          <span class="text-danger">{{ $errors->first('gender') }}</span>
-          @endif
+          <?php if($errors->has('gender')): ?>
+          <span class="text-danger"><?php echo e($errors->first('gender')); ?></span>
+          <?php endif; ?>
         </div>
         <div class="col-6 p-2">
           <label for="number" class="form-label">Contact Number:</label>
-          <input type="text" class="form-control" maxlength="10" value="{{ old('number',$candidate->number) }}" name="number" id="user_number" placeholder="Enter Ten digits Number" >
-          @if($errors->has('number'))
-          <span class="text-danger">{{ $errors->first('number') }}</span>
-          @endif
+          <input type="text" class="form-control" maxlength="10" value="<?php echo e(old('number',$candidate->number)); ?>" name="number" id="user_number" placeholder="Enter Ten digits Number" >
+          <?php if($errors->has('number')): ?>
+          <span class="text-danger"><?php echo e($errors->first('number')); ?></span>
+          <?php endif; ?>
         </div>
         <div class="col-6 ">
           <label for="age" class="form-label">Age</label>
-          <input type="text" class="form-control" name="age" maxlength="2" value="{{ old('age',$candidate->age) }}" id="user_age" placeholder="Enter Age" >
-          @if($errors->has('age'))
-          <span class="text-danger">{{ $errors->first('age') }}</span>
-          @endif
+          <input type="text" class="form-control" name="age" maxlength="2" value="<?php echo e(old('age',$candidate->age)); ?>" id="user_age" placeholder="Enter Age" >
+          <?php if($errors->has('age')): ?>
+          <span class="text-danger"><?php echo e($errors->first('age')); ?></span>
+          <?php endif; ?>
         </div>    
         <div> 
-          <img src="/images/{{ $candidate->file }}" class="" width="80" height="60" alt="Unable to load">
+          <img src="/images/<?php echo e($candidate->file); ?>" class="" width="80" height="60" alt="Unable to load">
         </div>
         <div class="input-group mb-3 p-2">
-            <input type="file" class="form-control" value="{{ old('file') }}" name="file" id="User_file">
+            <input type="file" class="form-control" value="<?php echo e(old('file')); ?>" name="file" id="User_file">
             <label class="input-group-text" for="file">Upload</label>
-            @if($errors->has('file'))
-          <span class="text-danger">{{ $errors->first('file') }}</span>
-          @endif
+            <?php if($errors->has('file')): ?>
+          <span class="text-danger"><?php echo e($errors->first('file')); ?></span>
+          <?php endif; ?>
           </div>
           <div class="col-md-6p-2 ">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" value="{{ old('email',$candidate->email) }}" name="email" id="user_email" placeholder="Enter Email">
-            @if($errors->has('email'))
-          <span class="text-danger">{{ $errors->first('email') }}</span>
-          @endif
+            <input type="email" class="form-control" value="<?php echo e(old('email',$candidate->email)); ?>" name="email" id="user_email" placeholder="Enter Email">
+            <?php if($errors->has('email')): ?>
+          <span class="text-danger"><?php echo e($errors->first('email')); ?></span>
+          <?php endif; ?>
           </div>
         <div class="col-12 p-2">
           <button id="submit" class="btn btn-dark mt-2">Update</button> 
@@ -184,11 +182,11 @@
                   var idCountry = this.value;
                   $("#state_dd").html('');
                   $.ajax({
-                      url: "{{url('api/fetch-states')}}",
+                      url: "<?php echo e(url('api/fetch-states')); ?>",
                       type: "POST",
                       data: {
                           country_id: idCountry,
-                          _token: '{{csrf_token()}}'
+                          _token: '<?php echo e(csrf_token()); ?>'
                       },
                       dataType: 'json',
                       success: function (result) {
@@ -205,11 +203,11 @@
                   var idState = this.value;
                   $("#city_dd").html('');
                   $.ajax({
-                      url: "{{url('api/fetch-cities')}}",
+                      url: "<?php echo e(url('api/fetch-cities')); ?>",
                       type: "POST",
                       data: {
                           state_id: idState,
-                          _token: '{{csrf_token()}}'
+                          _token: '<?php echo e(csrf_token()); ?>'
                       },
                       dataType: 'json',
                       success: function (res) {
@@ -229,7 +227,7 @@
                 
                 $.ajax({
                   type: "POST",
-                  url: "{{ url('candidates/update') }}",
+                  url: "<?php echo e(url('candidates/update')); ?>",
                   data: new FormData(this),
                   dataType: 'json',
                   processData:false,
@@ -237,7 +235,7 @@
                   success: function(result) {
                     console.log('yoyoyo');
           },error: function(data) {
-            window.location = "{{ route('candidates.index') }}"
+            window.location = "<?php echo e(route('candidates.index')); ?>"
           }
                 });
               });
@@ -245,4 +243,4 @@
           });
       </script>
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/candidates/edit.blade.php ENDPATH**/ ?>

@@ -6,9 +6,9 @@
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
-          @if (session('success'))
+          @if (session('status'))
           <div class="alert alert-success">
-             {{ session("success") }}
+             {{ session("status") }}
           </div>
         
           @elseif (session("error"))
@@ -25,8 +25,10 @@
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
   
-                  <form method="POST" action="{{ route('updatepassword') }}">
+                    <form method="POST" action="{{ route('resetpasswordpost', ['token' => $token]) }}">
+
                     @csrf
+                    <input type="text" hidden name="token" value="{{ $token }}">
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                       <span class="h1 fw-bold mb-0">Logo</span>
@@ -41,37 +43,29 @@
                     <span class="text-danger">{{ $errors->first('email') }}</span>
                  @endif
                     </div>
-                    <p>Please enter registered Email,<br>
-                    We will provide a link on your Email.</p>
 
-                    {{-- <div class="form-outline mb-4">
-                      <input type="text" name="oldpassword" id="form2Example17" class="form-control form-control-lg" />
-                      <label class="form-label"  for="form2Example17">Old Password</label>
-                      @if($errors->has('oldpassword'))
-                    <span class="text-danger">{{ $errors->first('oldpassword') }}</span>
-                 @endif
-                    </div>
+                   
                     
   
                     <div class="form-outline mb-4">
-                      <input type="text" name="newpassword" id="form2Example27" class="form-control form-control-lg" />
+                      <input type="text" name="password" id="password" class="form-control form-control-lg" />
                       <label class="form-label" for="form2Example27">New Password</label>
-                      @if($errors->has('newpassword'))
-                      <span class="text-danger">{{ $errors->first('newpassword') }}</span>
+                      @if($errors->has('password'))
+                      <span class="text-danger">{{ $errors->first('password') }}</span>
                    @endif
                     </div>
 
                     <div class="form-outline mb-4">
-                        <input type="text" name="newpassword" id="form2Example27" class="form-control form-control-lg" />
+                        <input type="text" name="confirm_password" id="form2Example27" class="form-control form-control-lg" />
                         <label class="form-label" for="form2Example27">Confirm Password</label>
-                        @if($errors->has('newpassword'))
-                        <span class="text-danger">{{ $errors->first('newpassword') }}</span>
+                        @if($errors->has('confirm_password'))
+                        <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
                      @endif
-                      </div> --}}
+                      </div>
   
 
                     <div class="pt-1 mb-4">
-                      <button class="btn btn-dark btn-lg btn-block" type="submit">Send a link</button>
+                      <button class="btn btn-dark btn-lg btn-block" type="submit">Update Password</button>
                     </div>
                     
   

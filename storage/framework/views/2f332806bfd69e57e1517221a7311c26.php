@@ -36,7 +36,7 @@
         <a href="/create" class="btn btn-dark mt-2">New Registration</a>
       </div>
       <div class="container">
-        <a href="{{ url("/logout") }}" class="btn btn-dark mt-2">Logout</a>
+        <a href="<?php echo e(url("/logout")); ?>" class="btn btn-dark mt-2">Logout</a>
       </div>
     
 <div>
@@ -47,25 +47,22 @@
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               
-              {{-- <th scope="col">Password</th> --}}
-              {{-- <th scope="col">Actions</th> --}}
+              
+              
             </tr>
           </thead>
           <tbody>
-            {{-- dd($candidates); --}}
-            @foreach ($users as $user)
-            {{-- {{  dd($candidate); }} --}}
+            
+            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            
             <tr>
-              <td>{{ $loop->index+1 }}</td>   
-              <td>{{ $user->name }}</td>
-              <td>{{ $user->email }}</td>
-              {{-- <td>{{ $user->password }}</td> --}}
-              {{-- <td>
-                <a href="edit/{{ $candidate->id }}" class="btn btn-dark btn-sm">Edit</a>
-                <a href="candidates/{{ $candidate->id }}/delete" class="btn btn-danger btn-sm">Delete</a>
-              </td> --}}
+              <td><?php echo e($loop->index+1); ?></td>   
+              <td><?php echo e($user->name); ?></td>
+              <td><?php echo e($user->email); ?></td>
+              
+              
             </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
            
           </tbody>
           
@@ -73,4 +70,4 @@
      
     </div>
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/auth/loginindex.blade.php ENDPATH**/ ?>

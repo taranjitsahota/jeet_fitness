@@ -1,21 +1,22 @@
-@extends("layouts.layout")
-@section("title","Login")
-@section("content")
+<?php $__env->startSection("title","Login"); ?>
+<?php $__env->startSection("content"); ?>
 
 <section class="vh-100" style="background-color: #9A616D;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
-          @if (session()->has("success"))
+          <?php if(session()->has("success")): ?>
           <div class="alert alert-success">
-             {{ session()->get("success") }}
+             <?php echo e(session()->get("success")); ?>
+
           </div>
-          @endif
-          @if (session()->has("error"))
+          <?php endif; ?>
+          <?php if(session()->has("error")): ?>
           <div class="alert alert-danger">
-             {{ session()->get("error") }}
+             <?php echo e(session()->get("error")); ?>
+
           </div>
-          @endif
+          <?php endif; ?>
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
               <div class="col-md-6 col-lg-5 d-none d-md-block">
@@ -25,8 +26,8 @@
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
   
-                  <form id="user_form" method="POST" action="{{ route('login.post') }}">
-                    @csrf
+                  <form id="user_form" method="POST" action="<?php echo e(route('login.post')); ?>">
+                    <?php echo csrf_field(); ?>
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                       <span class="h1 fw-bold mb-0">Logo</span>
@@ -35,20 +36,20 @@
                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
   
                     <div class="form-outline mb-4">
-                      <input type="text" name="email" value="{{ old('email') }}" id="email" class="form-control form-control-lg" />
+                      <input type="text" name="email" value="<?php echo e(old('email')); ?>" id="email" class="form-control form-control-lg" />
                       <label class="form-label"  for="form2Example17">Email address</label>
-                      @if($errors->has('email'))
-                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                 @endif
+                      <?php if($errors->has('email')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('email')); ?></span>
+                 <?php endif; ?>
                     </div>
                     
   
                     <div class="form-outline mb-4">
                       <input type="password" name="password" id="password" class="form-control form-control-lg" />
                       <label class="form-label" for="form2Example27">Password</label>
-                      @if($errors->has('password'))
-                      <span class="text-danger">{{ $errors->first('password') }}</span>
-                   @endif
+                      <?php if($errors->has('password')): ?>
+                      <span class="text-danger"><?php echo e($errors->first('password')); ?></span>
+                   <?php endif; ?>
                     </div>
                     
                     <div class="pt-1 mb-4">
@@ -94,8 +95,8 @@
         });
     });
 </script>
-@endsection
-@push('scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('scripts'); ?>
 <script>
   $(document).ready(function(){
     $('#login').click(function(e){
@@ -110,7 +111,7 @@
       var email = $('#email').val();
       var password = $('#password').val();
       $.ajax({
-        url:"{{ url('login') }}",
+        url:"<?php echo e(url('login')); ?>",
         type:'POST',
 
         data:{
@@ -123,7 +124,7 @@
           if($.isEmptyObject(data.error)){
             if(data){
               // console.log($users);
-              window.location="{{ route('candidates.index') }}"
+              window.location="<?php echo e(route('candidates.index')); ?>"
             }
             else{
             alert('Not registered or invalid credentials')
@@ -139,5 +140,7 @@
     });
   });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
 
+
+<?php echo $__env->make("layouts.layout", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/auth/login.blade.php ENDPATH**/ ?>

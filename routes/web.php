@@ -33,12 +33,11 @@ use App\Http\Middleware\usermiddleware;
 
 
 Route::get('/admin', [Mycontroller::class,"admin"])->middleware('admin');
-Route::get("/",[Mycontroller::class,"login"])->name("login"); 
+Route::get("/userlogin",[Mycontroller::class,"login"])->name("login"); 
 Route::post("/login",[Mycontroller::class,"loginPost"])->name("login.post");
 
 Route::middleware([usermiddleware::class])->group(function () {
 Route::get('/index',[Mycontroller::class,'index'])->name('candidates.index');
-// Route::get('/loginindex',[Mycontroller::class,'loginindex'])->name('loginindex');
 Route::post('candidates/store',[Mycontroller::class,'store'])->name("store");
 Route::post('candidates/update',[Mycontroller::class,'update']);
 Route::get('candidates/{id}/delete',[Mycontroller::class,'destroy']);
@@ -62,5 +61,8 @@ Route::get("/changepassword",[Mycontroller::class,"changepassword"])->name("chan
 Route::post("/changepassword",[Mycontroller::class,"updatepassword"])->name("updatepassword");
 Route::post('/checkContact', [Mycontroller::class,"checkContact"])->name("checkContact");
 
+
+Route::get('/resetpassword{token}', [Mycontroller::class,"resetpassword"])->name("resetpassword");
+Route::post("/resetpassword",[Mycontroller::class,"resetpasswordpost"])->name("resetpasswordpost");
 
 

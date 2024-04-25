@@ -13,7 +13,6 @@ class Candidate extends Model
 
     public static function loginindex(){
         $email = session()->get('email');
-        
         $user =DB::table('users')
         ->where('email', $email)
         ->first();
@@ -25,7 +24,7 @@ class Candidate extends Model
         return $users;
     }
     public static function index(){
-        // DB::enableQueryLog();
+        DB::enableQueryLog();
 
         // $email = session()->get('email');
         // $user =DB::table('users')
@@ -42,6 +41,7 @@ class Candidate extends Model
          ->Join('countries','countries.id','=','candidates.country')
              ->Join('states','states.id','=','candidates.state')
             //  ->join('cities','cities.id','=','candidates.city')
+            ->whereNull('is_deleted')
         ->get();
         foreach($users as $user){
             // dd($user);
@@ -74,7 +74,7 @@ class Candidate extends Model
         //     ->where('candidates.id', 1)
         //     ->get();
         // }
-        // $query=(DB::getQueryLog());
+        $query=(DB::getQueryLog());
         // dd($query);
         // ->tosql();
         // dd($users->tosql());
@@ -85,7 +85,6 @@ class Candidate extends Model
         return $users;
     }
     public static function create(){
-        $role = session()->get('role');
         $users = DB::table('countries')
         ->select('name','id')
         ->get();

@@ -1,21 +1,23 @@
-@extends("layouts.layout")
-@section("title","Change Password")
-@section("content")
+
+<?php $__env->startSection("title","Change Password"); ?>
+<?php $__env->startSection("content"); ?>
 
 <section class="vh-100" style="background-color: #9A616D;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
-          @if (session('success'))
+          <?php if(session('status')): ?>
           <div class="alert alert-success">
-             {{ session("success") }}
+             <?php echo e(session("status")); ?>
+
           </div>
         
-          @elseif (session("error"))
+          <?php elseif(session("error")): ?>
           <div class="alert alert-danger">
-             {{ session("error") }}
+             <?php echo e(session("error")); ?>
+
           </div>
-          @endif
+          <?php endif; ?>
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
               <div class="col-md-6 col-lg-5 d-none d-md-block">
@@ -25,8 +27,10 @@
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
   
-                  <form method="POST" action="{{ route('updatepassword') }}">
-                    @csrf
+                    <form method="POST" action="<?php echo e(route('resetpasswordpost', ['token' => $token])); ?>">
+
+                    <?php echo csrf_field(); ?>
+                    <input type="text" hidden name="token" value="<?php echo e($token); ?>">
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                       <span class="h1 fw-bold mb-0">Logo</span>
@@ -37,41 +41,33 @@
                     <div class="form-outline mb-4">
                       <input type="email" name="email" id="email" class="form-control form-control-lg" />
                       <label class="form-label"  for="email">Email</label>
-                      @if($errors->has('email'))
-                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                 @endif
+                      <?php if($errors->has('email')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('email')); ?></span>
+                 <?php endif; ?>
                     </div>
-                    <p>Please enter registered Email,<br>
-                    We will provide a link on your Email.</p>
 
-                    {{-- <div class="form-outline mb-4">
-                      <input type="text" name="oldpassword" id="form2Example17" class="form-control form-control-lg" />
-                      <label class="form-label"  for="form2Example17">Old Password</label>
-                      @if($errors->has('oldpassword'))
-                    <span class="text-danger">{{ $errors->first('oldpassword') }}</span>
-                 @endif
-                    </div>
+                   
                     
   
                     <div class="form-outline mb-4">
-                      <input type="text" name="newpassword" id="form2Example27" class="form-control form-control-lg" />
+                      <input type="text" name="password" id="password" class="form-control form-control-lg" />
                       <label class="form-label" for="form2Example27">New Password</label>
-                      @if($errors->has('newpassword'))
-                      <span class="text-danger">{{ $errors->first('newpassword') }}</span>
-                   @endif
+                      <?php if($errors->has('password')): ?>
+                      <span class="text-danger"><?php echo e($errors->first('password')); ?></span>
+                   <?php endif; ?>
                     </div>
 
                     <div class="form-outline mb-4">
-                        <input type="text" name="newpassword" id="form2Example27" class="form-control form-control-lg" />
+                        <input type="text" name="confirm_password" id="form2Example27" class="form-control form-control-lg" />
                         <label class="form-label" for="form2Example27">Confirm Password</label>
-                        @if($errors->has('newpassword'))
-                        <span class="text-danger">{{ $errors->first('newpassword') }}</span>
-                     @endif
-                      </div> --}}
+                        <?php if($errors->has('confirm_password')): ?>
+                        <span class="text-danger"><?php echo e($errors->first('confirm_password')); ?></span>
+                     <?php endif; ?>
+                      </div>
   
 
                     <div class="pt-1 mb-4">
-                      <button class="btn btn-dark btn-lg btn-block" type="submit">Send a link</button>
+                      <button class="btn btn-dark btn-lg btn-block" type="submit">Update Password</button>
                     </div>
                     
   
@@ -91,4 +87,5 @@
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("layouts.layout", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/auth/newpassword.blade.php ENDPATH**/ ?>

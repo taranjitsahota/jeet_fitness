@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 use App\Models\{country,state, city};
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Str;
 
 class Mycontroller extends Controller
 {
@@ -94,6 +96,7 @@ class Mycontroller extends Controller
         return response()->json($data);
     }
 public function login(){
+    // dd('hello');
      if(session::has('email','password')){
     return redirect("/index");
     }
@@ -105,7 +108,7 @@ public function login(){
 }
 public function logout(){
     Session::flush();
-    return redirect("/");
+    return redirect("/userlogin");
 }
     public function loginPost(Request $request){
         $request->validate([
@@ -150,20 +153,36 @@ function registerPost(Request $request){
       return redirect("register")->with ("error","Failed to register User");
 }
   function changepassword(){
+    // dd('hello');
     return view('auth.changepassword');
   }
   function updatepassword(Request $request){
+    // dd('hello');
     $request->validate([
-        'oldpassword' => 'required'
+        'email' => 'required|email|exists:users'
     ]);
-    if(!Hash::check($request->oldpassword, auth()->user()->password)){
-        return back()->with("error", "Old Password Doesn't match!");
-    }
-    User::whereId(auth()->user()->id)->update([
-        'password' => Hash::make($request->newpassword)
+    $token = Str::random(64);
+    DB::table('password_reset_tokens')
+    ->insert([
+        'email'=> $request->email,
+        'token' => $token,
+        'created_at'=> Carbon::now()
     ]);
+    Mail::send("email.changepassword",['token'=>$token],function($message)use($request){
+        $message->to($request->email);
+        $message->subject("Reset Password");
+    });
+    // if(!Hash::check($request->oldpassword, auth()->user()->password)){
+    //     return back()->with("error", "Old Password Doesn't match!");
+    // }
+    // User::whereId(auth()->user()->id)->update([
+    //     'password' => Hash::make($request->newpassword)
+    // ]);
 
-    return back()->with("status", "Password changed successfully!");
+    return back()->with("success", "We sent an email to change password");
+  }
+  public function resetpassword($token){
+    return view('auth.newpassword',compact('token'));
   }
 
     public function checkContact(Request $request){
@@ -171,5 +190,35 @@ function registerPost(Request $request){
     $data= Candidate::checkContact($request);
     return response()->json($data);
 }
-
+    public function resetpasswordpost(Request $request){
+        // DB::enableQueryLog();
+        $request->validate([
+            "email"=>"required|email|exists:users",
+            "password"=>"required",
+            "confirm_password"=>"required"
+        ]);
+        // dd($request->all());
+        // dd('hello');
+        $users=DB::table('password_reset_tokens')
+        ->where([
+            "email"=>$request->email,
+            "token"=>$request->token
+        ])
+        ->first();
+        // dd($users);
+        if(!$users){
+            return redirect()->to(route("resetpassword"))->with('error','Invalid');
+        }
+        DB::table('users')
+        ->where('email',$request->email)
+        ->update([
+            "password"=>Hash::make($request->password)
+        ]);
+        $data=DB::table('password_reset_tokens')
+        ->where('email',$request->email)
+        ->delete();
+        // $query=(DB::getQueryLog());
+        // dd($query);
+        return redirect()->to(route('login'))->with("success","Password reset success");
+    }
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Registration</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
@@ -27,29 +27,25 @@
         </div>
       </nav>
     
-      {{-- @if ($message = Session::get('success'))
-          <div class="alert alert-success alert-block">
-          <strong>{{ $message }}</strong>
-            </div>    
-      @endif --}}
+      
 
     <form id="user_form" name="user_form" class="row p-4" onsubmit="return validateForm()" method="POST" enctype="multipart/form-data" action="candidate/store" >
-        @csrf
+        <?php echo csrf_field(); ?>
         <div class="col-md-6 ">
           <label for="name" class="form-label">Name</label>
           <input type="text" value="" class="form-control" name="name" id="user_name" placeholder="Please Enter Your Name">
-          @if($errors->has('name'))
-          <span class="text-danger">{{ $errors->first('name') }}</span>
-          @endif
+          <?php if($errors->has('name')): ?>
+          <span class="text-danger"><?php echo e($errors->first('name')); ?></span>
+          <?php endif; ?>
         </div>
-        {{-- <div>{{ URL::current() }}</div> --}}
-        {{-- <div>{{ URL::full() }}</div> --}}
+        
+        
         <div class="col-md-6 ">
           <label for="addrress" class="form-label">Addrress</label>
           <input type="text" value="" class="form-control" name="address" id="user_address" placeholder="Flat No./Floor No./apartment">
-          @if($errors->has('address'))
-          <span class="text-danger">{{ $errors->first('address') }}</span>
-          @endif
+          <?php if($errors->has('address')): ?>
+          <span class="text-danger"><?php echo e($errors->first('address')); ?></span>
+          <?php endif; ?>
         </div>
 
         <div class="col-md-4 p-2">
@@ -59,33 +55,34 @@
             <option value="" selected disabled >Choose...</option>
 
         
-            @foreach ($countries as $data)
-                 <option value="{{$data->id}}">
-                    {{$data->name}}
+            <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                 <option value="<?php echo e($data->id); ?>">
+                    <?php echo e($data->name); ?>
+
                   </option>
-             @endforeach
+             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </select>
-          @if($errors->has('country'))
-          <span class="text-danger">{{ $errors->first('country') }}</span>
-          @endif
+          <?php if($errors->has('country')): ?>
+          <span class="text-danger"><?php echo e($errors->first('country')); ?></span>
+          <?php endif; ?>
         </div>
         <div class="col-md-4 p-2">
             <label for="state" class="form-label">State</label>
             <select name="state" id="state_dd" class="form-select">
               <option value="" selected disabled >Choose...</option>
             </select>
-            @if($errors->has('state'))
-            <span class="text-danger">{{ $errors->first('state') }}</span>
-            @endif
+            <?php if($errors->has('state')): ?>
+            <span class="text-danger"><?php echo e($errors->first('state')); ?></span>
+            <?php endif; ?>
           </div>
           <div class="col-md-4 p-2">
             <label for="city" class="form-label">City</label>
             <select name="city[]" id="city_dd" class="form-control select2" multiple>
               <option value=""selected disabled >Choose...</option>
             </select>
-            @if($errors->has('city'))
-          <span class="text-danger">{{ $errors->first('city') }}</span>
-          @endif
+            <?php if($errors->has('city')): ?>
+          <span class="text-danger"><?php echo e($errors->first('city')); ?></span>
+          <?php endif; ?>
           </div>
           <label for="gender">Gender:</label>
           <div>
@@ -101,49 +98,49 @@
               Female
             </label>
           </div>
-          @if($errors->has('gender'))
-          <span class="text-danger">{{ $errors->first('gender') }}</span>
-          @endif
+          <?php if($errors->has('gender')): ?>
+          <span class="text-danger"><?php echo e($errors->first('gender')); ?></span>
+          <?php endif; ?>
         </div>
         <div class="col-6 p-2">
           
           <label for="number" class="form-label">Contact Number:</label>
           <input type="tel" class="form-control" value="" name="number" maxlength="10" id="number" placeholder="Enter Ten digits Number" >
           <span id="contactError" style="color: red;"></span>
-          @if($errors->has('number'))
-          <span class="text-danger">{{ $errors->first('number') }}</span>
-          @endif
+          <?php if($errors->has('number')): ?>
+          <span class="text-danger"><?php echo e($errors->first('number')); ?></span>
+          <?php endif; ?>
         </div>
       
 
         <div class="col-6 ">
           <label for="age" class="form-label">Age</label>
           <input type="text" class="form-control" name="age" value="" id="user_age" maxlength="2" placeholder="Enter Age">
-          @if($errors->has('age'))
-          <span class="text-danger">{{ $errors->first('age') }}</span>
-          @endif
+          <?php if($errors->has('age')): ?>
+          <span class="text-danger"><?php echo e($errors->first('age')); ?></span>
+          <?php endif; ?>
         </div>
         <div class="input-group mb-3 p-2">
             <input type="file" class="form-control" value="" name="file" id="User_file">
             <label class="input-group-text" for="file">Upload</label>
-            @if($errors->has('file'))
-          <span class="text-danger">{{ $errors->first('file') }}</span>
-          @endif
+            <?php if($errors->has('file')): ?>
+          <span class="text-danger"><?php echo e($errors->first('file')); ?></span>
+          <?php endif; ?>
           </div>
        
           <div class="col-md-5 p-2 ">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" value="" name="email" id="user_email" placeholder="Enter Email">
-            @if($errors->has('email'))
-          <span class="text-danger">{{ $errors->first('email') }}</span>
-          @endif
+            <?php if($errors->has('email')): ?>
+          <span class="text-danger"><?php echo e($errors->first('email')); ?></span>
+          <?php endif; ?>
           </div>
           <div class="col-md-5 p-2">
             <label for="password" class="form-label">Password (Min=8,Uppercase & Lowercase)</label>
             <input type="password" class="form-control"  name="password" id="user_password" placeholder="Enter Password">
-            @if($errors->has('password'))
-          <span class="text-danger">{{ $errors->first('password') }}</span>
-          @endif
+            <?php if($errors->has('password')): ?>
+          <span class="text-danger"><?php echo e($errors->first('password')); ?></span>
+          <?php endif; ?>
           </div>
         
         <div class="col-12 p-2">
@@ -159,33 +156,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 
-{{-- <link rel="stylesheet" href="{{ asset('assets/select2.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('assets/jquery.js') }}"> --}}
-{{-- <script src="{{ asset('assets/jquery.js') }}"></script> --}}
 
 
-  {{-- // function myFunction() {
-  //   // Get the value of the input field with id="numb"
-  //   // let x = document.getElementById("city_dd").value;
-  //   let x = document.forms["myForm"]["city_dd"].value;
-  //   // If x is Not a Number or less than one or greater than 10
-  //   let text;
-  //   if () {
-  //     text = "Input not valid";
-  //   } else {
-  //     text = "Input OK";
-  //   }
-  //   document.getElementById("demo").innerHTML = text;
-  // } --}}
-  {{-- <script>
-  function validateForm() {
-  let x = document.forms["city_dd"]["city"].value;
-  if (x === "") {
-    alert("name must be filled out");
-    return false;
-  }
-}
-</script> --}}
+
+
+
+  
+  
 
   
 
@@ -214,11 +191,11 @@
                 var idCountry = this.value;
                 $("#state_dd").html('');
                 $.ajax({
-                    url: "{{url('api/fetch-states')}}",
+                    url: "<?php echo e(url('api/fetch-states')); ?>",
                     type: "POST",
                     data: {
                         country_id: idCountry,
-                        _token: '{{csrf_token()}}'
+                        _token: '<?php echo e(csrf_token()); ?>'
                     },
                     dataType: 'json',
                     success: function (result) {
@@ -235,11 +212,11 @@
                 var idState = this.value;
                 $("#city_dd").html('');
                 $.ajax({
-                    url: "{{url('api/fetch-cities')}}",
+                    url: "<?php echo e(url('api/fetch-cities')); ?>",
                     type: "POST",
                     data: {
                         state_id: idState,
-                        _token: '{{csrf_token()}}'
+                        _token: '<?php echo e(csrf_token()); ?>'
                     },
                     dataType: 'json',
                     success: function (res) {
@@ -265,14 +242,14 @@ $("#user_form").on('submit', (function(e) {
 
     $.ajax({
         type: "POST",
-        url: "{{ url('candidates/store') }}",
+        url: "<?php echo e(url('candidates/store')); ?>",
         data: new FormData(this),
         dataType: 'json',
         cache: false,
         contentType: false,
         processData: false,
         success: function(result) {
-            location.href = "{{ url('/index') }}";
+            location.href = "<?php echo e(url('/index')); ?>";
         },
         error: function(data) {
             var responseData = data.responseJSON;
@@ -372,7 +349,7 @@ $(document).ready(function() {
               // console.log(data);
                 // if ($.isEmptyObject(data.error)) {
                   if(data==0){
-                    // window.location="{{ route('candidates.index') }}"
+                    // window.location="<?php echo e(route('candidates.index')); ?>"
                     // alert('new user');
                     $('#contactError').html('');
                     $('#submit').prop('disabled', false);
@@ -393,3 +370,4 @@ $(document).ready(function() {
 </html>
 
 
+<?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/candidates/create.blade.php ENDPATH**/ ?>
