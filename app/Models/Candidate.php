@@ -30,7 +30,7 @@ class Candidate extends Model
         // $user =DB::table('users')
         // ->where('email', $email)
         // ->first();
-
+ 
         // if($user->role==1){
             $users = DB::table('candidates')
         ->select("candidates.*",
@@ -44,44 +44,20 @@ class Candidate extends Model
             ->whereNull('is_deleted')
         ->get();
         foreach($users as $user){
-            // dd($user);
             $cityArray=[];
             $candidatecities = DB::table('multiplecities')
             ->select('cities.name')
             ->join('cities','cities.id','=','multiplecities.city')
             ->where('multiplecities.candidate_id',$user->id)
             ->get();
-            // dd($cityArray);
             foreach( $candidatecities as $cities){
                 array_push($cityArray,$cities->name );
             }
-            // dd($cityArray);
             $usercity = implode(',', $cityArray);
             $user->city=$usercity;
-            // $query=$users->tosql;
         }
-    
-        // }else{
-        //     $users = DB::table('candidates')
-        // ->select("candidates.*",
-        //  "countries.name as Countries_name",
-        // "states.name as state_name"
-        // //  "cities.name as city_name"
-        //  )
-        //  ->Join('countries','countries.id','=','candidates.country')
-        //      ->Join('states','states.id','=','candidates.state')
-        //     //  ->join('cities','cities.id','=','candidates.city')
-        //     ->where('candidates.id', 1)
-        //     ->get();
-        // }
         $query=(DB::getQueryLog());
         // dd($query);
-        // ->tosql();
-        // dd($users->tosql());
-        // $query=$users->tosql();
-        // dd($query);
-        // dd($users);
-        // dd($users);
         return $users;
     }
     public static function create(){
@@ -259,12 +235,37 @@ class Candidate extends Model
         // dd($users);
         return $users;
     }
-    
+    public static function roles(){
+        // dd('hello');
+        $users = DB::table('menu')
+        ->select('menu.*')
+        // ->Join('submenu','submenu.menu_id','=','menu.id')
+        ->get();
+
+        foreach($users as $user){
+            $roleArray=[];
+            $roles = DB::table('menu')
+            ->select('submenu.*','submenu.list')
+            ->join('submenu','submenu.menu_id','=','menu.id')
+            ->where('submenu.menu_id',$user->id)
+            ->get();
+            // dd($roles);
+            foreach( $roles as $role){
+                array_push($roleArray,$role->list );
+            }
+            // $userrole = implode(',', $roleArray);
+            $user->menu_id=$roleArray;
+        }
+        // dd($users);
+        return $users;
+    }
+    public static function roles1($menu_id){
+    $users = DB::table('submenu')
+        ->select('submenu.*')
+        ->where('menu_id',$menu_id)
+        ->get();
+      $r =  json_decode($users);
+        // dd( $users );
+        return $r;
+    }
 }
-
-
-
-
-
-
-

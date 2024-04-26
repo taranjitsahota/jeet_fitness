@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Loginindex</title>
+    <title>Roles</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
@@ -14,6 +14,8 @@
   <style>
     .table{
       border: 2px solid black;
+      width: 20%;
+      float: left;
     }
     td,
     th{
@@ -22,7 +24,7 @@
   </style>
 </head>
 <body>
-    <h1>Users</h1>
+    
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid ">
           <a class="navbar-brand text-light" href="/sai_fitness/index">Registrations</a>
@@ -36,41 +38,42 @@
         <a href="/create" class="btn btn-dark mt-2">New Registration</a>
       </div>
       <div class="container">
-        <a href="{{ url("/logout") }}" class="btn btn-dark mt-2">Logout</a>
+        <a href="<?php echo e(url("/logout")); ?>" class="btn btn-dark mt-2">Logout</a>
       </div>
     
 <div>
     <table class="table container table-hover mt-2">
         <thead>
             <tr>
-              <th scope="col">Sr No.</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Roles</th>
+              <th scope="col">Menu</th>
               
-              {{-- <th scope="col">Password</th> --}}
-              {{-- <th scope="col">Actions</th> --}}
+              
+              
+              
+              
+              
             </tr>
           </thead>
           <tbody>
-            {{-- dd($candidates); --}}
-            @foreach ($users as $user)
-            {{-- {{  dd($candidate); }} --}}
+            
+            
+            
             <tr>
-              <td>{{ $loop->index+1 }}</td>   
-              <td>{{ $user->name }}</td>
-              <td>{{ $user->email }}</td>
-              <td>
-                <input type="checkbox" id="checkbox" name="checkbox" value="edit">
-                <label for="vehicle1">Edit</label>
-              </td>
-              {{-- <td>{{ $user->password }}</td> --}}
-              {{-- <td>
-                <a href="edit/{{ $candidate->id }}" class="btn btn-dark btn-sm">Edit</a>
-                <a href="candidates/{{ $candidate->id }}/delete" class="btn btn-danger btn-sm">Delete</a>
-              </td> --}}
+                
+                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <tr>
+
+                    <td><?php echo e($user->Name); ?></td>
+                </tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+              
+              
+              
+              
+              
+              
             </tr>
-            @endforeach
+            
            
           </tbody>
           
@@ -79,3 +82,4 @@
     </div>
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\auth\roles.blade.php ENDPATH**/ ?>

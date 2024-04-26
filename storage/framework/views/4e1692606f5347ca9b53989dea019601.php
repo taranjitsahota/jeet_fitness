@@ -20,4 +20,4 @@
 </html>
 
 
-<?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/layouts/layout.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\layouts\layout.blade.php ENDPATH**/ ?>

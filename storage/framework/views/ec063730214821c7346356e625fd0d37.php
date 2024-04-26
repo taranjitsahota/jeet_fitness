@@ -143,4 +143,4 @@
 <?php $__env->stopPush(); ?>
 
 
-<?php echo $__env->make("layouts.layout", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/auth/login.blade.php ENDPATH**/ ?>
+<?php echo $__env->make("layouts.layout", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\auth\login.blade.php ENDPATH**/ ?>

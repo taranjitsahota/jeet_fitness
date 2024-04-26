@@ -370,4 +370,4 @@ $(document).ready(function() {
 </html>
 
 
-<?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/candidates/create.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\candidates\create.blade.php ENDPATH**/ ?>

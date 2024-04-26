@@ -46,6 +46,7 @@
               <th scope="col">Sr No.</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
+              <th scope="col">Roles</th>
               
               
               
@@ -59,6 +60,10 @@
               <td><?php echo e($loop->index+1); ?></td>   
               <td><?php echo e($user->name); ?></td>
               <td><?php echo e($user->email); ?></td>
+              <td>
+                <input type="checkbox" id="checkbox" name="checkbox" value="edit">
+                <label for="vehicle1">Edit</label>
+              </td>
               
               
             </tr>
@@ -70,4 +75,4 @@
      
     </div>
 </body>
-</html><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/auth/loginindex.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\auth\loginindex.blade.php ENDPATH**/ ?>

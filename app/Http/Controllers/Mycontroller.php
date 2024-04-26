@@ -25,10 +25,6 @@ class Mycontroller extends Controller
     }
     public function index(){
         $user1['candidates'] =  Candidate::index();
-       
-        // dd($user);
-        // dd($email);
-        // dd($user1);
         return view('candidates.index',$user1);
     }
     public function create(){
@@ -220,5 +216,15 @@ function registerPost(Request $request){
         // $query=(DB::getQueryLog());
         // dd($query);
         return redirect()->to(route('login'))->with("success","Password reset success");
+    }
+    public function roles(){
+        $users['menus']=Candidate::roles();
+        // dd( $users);
+        return view('auth.roles',$users);
+    }
+    public static function roles1($menu_id){
+        // echo $master_id;
+        $test = Candidate::roles1($menu_id);
+        return $test;
     }
 }

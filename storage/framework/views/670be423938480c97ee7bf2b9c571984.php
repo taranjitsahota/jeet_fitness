@@ -243,4 +243,4 @@
           });
       </script>
 </body>
-</html><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views/candidates/edit.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\candidates\edit.blade.php ENDPATH**/ ?>

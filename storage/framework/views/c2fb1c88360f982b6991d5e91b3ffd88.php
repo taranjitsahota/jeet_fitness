@@ -25,27 +25,21 @@
 
     <nav class="navbar navbar-expand-lg bg-dark">
 
-      @php
+      <?php
   // dd(Session::has('role'));
-  @endphp
+  ?>
 
-@if(Session::has('role'))
+<?php if(Session::has('role')): ?>
 <a class="navbar-brand text-light" href="/sai_fitness/loginindex">Users</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    {{-- @else --}}
-    {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" disabled>
-      <span class="navbar-toggler-icon"></span>
-  </button> --}}
-@endif
+    
+    
+<?php endif; ?>
 
 
-        {{-- <div class="container-fluid ">
-          <a class="navbar-brand text-light" href="/loginindex">Users</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon "></span>
-          </button> --}}
+        
 
           <a class="navbar-brand text-light" href="/sai_fitness/index">Registrations</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +52,7 @@
         <a href="/sai_fitness/create" class="btn btn-dark mt-2">New Registration</a>
       </div>
       <div class="container">
-        <a href="{{ url("/logout") }}" class="btn btn-dark mt-2">Logout</a>
+        <a href="<?php echo e(url("/logout")); ?>" class="btn btn-dark mt-2">Logout</a>
       </div>
     
 <div>
@@ -82,33 +76,33 @@
             </tr>
           </thead>
           <tbody>
-            {{-- dd($candidates); --}}
-            @foreach ($candidates as $candidate)
-            {{-- {{  dd($candidate); }} --}}
+            
+            <?php $__currentLoopData = $candidates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $candidate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            
             <tr>
-              <td>{{ $loop->index+1 }}</td>   
-              <td>{{ $candidate->name }}</td>
-              <td>{{ $candidate->address }}</td>
-              <td>{{  $candidate->Countries_name }}</td>
-              <td>{{  $candidate->state_name }}</td>
-              <td>{{ $candidate->city }}</td>
-              <td>{{ $candidate->gender }}</td>
-              <td>{{ $candidate->number}}</td>
-              <td>{{ $candidate->age }}</td>
+              <td><?php echo e($loop->index+1); ?></td>   
+              <td><?php echo e($candidate->name); ?></td>
+              <td><?php echo e($candidate->address); ?></td>
+              <td><?php echo e($candidate->Countries_name); ?></td>
+              <td><?php echo e($candidate->state_name); ?></td>
+              <td><?php echo e($candidate->city); ?></td>
+              <td><?php echo e($candidate->gender); ?></td>
+              <td><?php echo e($candidate->number); ?></td>
+              <td><?php echo e($candidate->age); ?></td>
               <td>
-                <img src="images/{{ $candidate->file }}" class="" width="80" height="60" alt="Unable to load">
+                <img src="images/<?php echo e($candidate->file); ?>" class="" width="80" height="60" alt="Unable to load">
               </td>
-              <td>{{ $candidate->email }}</td>
-              <td>{{ $candidate->password }}</td>
+              <td><?php echo e($candidate->email); ?></td>
+              <td><?php echo e($candidate->password); ?></td>
               <td class="container">
-                <a href="edit/{{ $candidate->id }}" class="btn btn-dark btn-sm">Edit</a>
-                <a href="candidates/{{ $candidate->id }}/delete" class="btn btn-danger btn-sm">Delete</a>
+                <a href="edit/<?php echo e($candidate->id); ?>" class="btn btn-dark btn-sm">Edit</a>
+                <a href="candidates/<?php echo e($candidate->id); ?>/delete" class="btn btn-danger btn-sm">Delete</a>
               </td>
               <td>
                 <a href="/sai_fitness/roles" class="btn btn-dark btn-sm">Edit</a>
               </td>
             </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
            
           </tbody>
           
@@ -116,4 +110,4 @@
      
     </div>
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\candidates\index.blade.php ENDPATH**/ ?>
