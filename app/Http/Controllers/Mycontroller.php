@@ -217,8 +217,8 @@ function registerPost(Request $request){
         // dd($query);
         return redirect()->to(route('login'))->with("success","Password reset success");
     }
-    public function roles(){
-        $users['menus']=Candidate::roles();
+    public function roles($id){
+        $users['menus']=Candidate::roles($id);
         // dd( $users);
         return view('auth.roles',$users);
     }
@@ -226,5 +226,24 @@ function registerPost(Request $request){
         // echo $master_id;
         $test = Candidate::roles1($menu_id);
         return $test;
+    }
+    public function rolesubmit(Request $request){
+        // dd($request); 
+
+        $dataArray = [
+
+        // 'user_id'=>$request->user_id,
+        'add'=>$request->input('add'),
+        'edit'=>$request->input('edit'),
+        'delete'=>$request->input('delete'),
+        'view'=>$request->input('view')
+    ];
+    $role=$request->user_id;
+    $users['candidate']=Candidate::rolesubmit($dataArray,$role);
+        return $users;
+    }
+    public function rolesupdate(){
+        dd('hello');
+        return view("auth.rolesupdate");
     }
 }

@@ -104,8 +104,9 @@
                 <a href="edit/{{ $candidate->id }}" class="btn btn-dark btn-sm">Edit</a>
                 <a href="candidates/{{ $candidate->id }}/delete" class="btn btn-danger btn-sm">Delete</a>
               </td>
-              <td>
-                <a href="/sai_fitness/roles" class="btn btn-dark btn-sm">Edit</a>
+              <td class="container">
+                <a href="/sai_fitness/roles/{{ $candidate->id}}" class="btn btn-dark btn-sm">Add</a>
+                <a href="/sai_fitness/rolesupdate/{{ $candidate->id}}" class="btn btn-dark btn-sm">Update</a>
               </td>
             </tr>
             @endforeach

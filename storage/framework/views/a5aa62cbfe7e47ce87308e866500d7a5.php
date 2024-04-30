@@ -98,8 +98,9 @@
                 <a href="edit/<?php echo e($candidate->id); ?>" class="btn btn-dark btn-sm">Edit</a>
                 <a href="candidates/<?php echo e($candidate->id); ?>/delete" class="btn btn-danger btn-sm">Delete</a>
               </td>
-              <td>
-                <a href="/sai_fitness/roles" class="btn btn-dark btn-sm">Edit</a>
+              <td class="container">
+                <a href="/sai_fitness/roles/<?php echo e($candidate->id); ?>" class="btn btn-dark btn-sm">Add</a>
+                <a href="/sai_fitness/rolesupdate/<?php echo e($candidate->id); ?>" class="btn btn-dark btn-sm">Update</a>
               </td>
             </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -235,8 +235,12 @@ class Candidate extends Model
         // dd($users);
         return $users;
     }
-    public static function roles(){
-        // dd('hello');
+    public static function roles($id){
+        // dd($id);
+        $data = DB::table('candidates')
+        ->where('id',$id) 
+        ->first();
+        // dd($users);
         $users = DB::table('menu')
         ->select('menu.*')
         // ->Join('submenu','submenu.menu_id','=','menu.id')
@@ -256,8 +260,14 @@ class Candidate extends Model
             // $userrole = implode(',', $roleArray);
             $user->menu_id=$roleArray;
         }
+        $finalData = [
+            "user_id" =>$data->id,
+            "roles" =>[...$users],
+        ];
+        // dd($finalData);
+        return $finalData;
         // dd($users);
-        return $users;
+        // return $users;
     }
     public static function roles1($menu_id){
     $users = DB::table('submenu')
@@ -268,4 +278,40 @@ class Candidate extends Model
         // dd( $users );
         return $r;
     }
+    public static function rolesubmit($dataArray,$userID){
+        // dd($id);
+        $roleRecords = [];
+        // dd($dataArray);
+        foreach ($dataArray as $submenuId => $menus){
+        if(!is_array($menus)){
+            continue;
+        }
+            foreach ($menus as $menuId => $submenus) {
+                if(!is_array($submenus)){
+                    continue;
+                }
+                foreach($submenus as $submenuId => $data){
+                $add = isset($dataArray['add'][$menuId][$submenuId]) ? 1 : 0;
+                $edit = isset($dataArray['edit'][$menuId][$submenuId]) ? 1 : 0;
+                $delete = isset($dataArray['delete'][$menuId][$submenuId]) ? 1 : 0;
+                $view = isset($dataArray['view'][$menuId][$submenuId]) ? 1 : 0;
+                $roleRecord = [
+                    'candidate_id' => $userID,
+                    'menu_id' => $menuId,
+                    'submenu_id' => $submenuId,
+                    'add' => $add,
+                    'edit' =>$edit,
+                    'delete' =>$delete,
+                    'view' =>$view,
+            ];
+            $roleRecords[] = $roleRecord;
+            // dd($roleRecord);     
+            
+        }
+    }
+        $users = DB::table('roles')
+        ->insert($roleRecords);
+        return $users;
+    }
 }
+    }
