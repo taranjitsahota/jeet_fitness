@@ -66,4 +66,5 @@ Route::get('/resetpassword{token}', [Mycontroller::class,"resetpassword"])->name
 Route::post("/resetpassword",[Mycontroller::class,"resetpasswordpost"])->name("resetpasswordpost");
 Route::get("/roles/{id}",[Mycontroller::class,"roles"])->name("roles");
 Route::post("/rolesubmit",[Mycontroller::class,"rolesubmit"]);
-Route::get("/rolesupdate/{id}",[Mycontroller::class,"rolesupdate"]);
+Route::get("/rolesindex/{id}",[Mycontroller::class,"rolesindex"]);
+Route::post("/rolesupdate",[Mycontroller::class,"rolesupdate"]);

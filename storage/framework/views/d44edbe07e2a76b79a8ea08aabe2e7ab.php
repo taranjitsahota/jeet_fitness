@@ -38,7 +38,7 @@
       
     
 <div>
-  <form id="rolesubmit" class="container" method="POST" name="rolesubmit" action="/sai_fitness/rolesubmit">
+  <form id="rolesubmit" class="container" method="POST" name="rolesubmit" action="/sai_fitness/rolesindex">
     <?php echo csrf_field(); ?>
     <input type="hidden" name='user_id' id="user_id" value="<?php echo e($menus['user_id']); ?>">
     <table class="table container table-hover mt-2">
@@ -57,7 +57,7 @@
             
                 <tr>
 
-                  <td><input type="checkbox" name="menuname" for="menu" onclick="return menucheckboxes('<?php echo e($menu->Name); ?>', this.checked)" ><?php echo e($menu->Name); ?></td>
+                  <td><input type="checkbox" class="menu" name="menuname" for="menu" onclick="return menucheckboxes('<?php echo e($menu->Name); ?>', this.checked)" ><?php echo e($menu->Name); ?></td>
                     
 
                     
@@ -74,7 +74,7 @@
                     <?php
                       $string = $menu->id . $submenu->id;
                     ?>
-                    <td><input type="checkbox" name="add[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
+                    <td><input type="checkbox" class="submenu" name="add[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
                      <td><input type="checkbox" name="edit[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
                      <td><input type="checkbox" name="delete[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
                     <td><input type="checkbox" name="view[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
@@ -106,6 +106,18 @@
         });
     }
 </script>
+<script>
+  // Get the checkboxes
+  const checkClassCheckbox = document.querySelector('.submenu');
+  const dependentCheckboxes = document.querySelectorAll('.menu');
+  
+  // Add event listener to check-class checkbox
+  checkClassCheckbox.addEventListener('change', () => {
+      // Update dependent checkboxes based on check-class checkbox
+      dependentCheckboxes.forEach(checkbox => checkbox.checked = checkClassCheckbox.checked);
+  });
+</script>
+    
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function () {
@@ -119,7 +131,7 @@ $("#rolesubmit").on('submit', (function(e) {
 
   $.ajax({
       type: "POST",
-      url: "<?php echo e(url('/rolesubmit')); ?>",
+      url: "<?php echo e(url('/rolesindex')); ?>",
       data: new FormData(this),
       dataType: 'json',
       cache: false,
@@ -144,4 +156,6 @@ $("#rolesubmit").on('submit', (function(e) {
   </script>
 </body>
 </html>
+
+
 <?php /**PATH C:\xampp\htdocs\sai_fitness\resources\views\auth\roles.blade.php ENDPATH**/ ?>

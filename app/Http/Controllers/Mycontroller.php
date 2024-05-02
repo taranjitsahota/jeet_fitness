@@ -242,8 +242,15 @@ function registerPost(Request $request){
     $users['candidate']=Candidate::rolesubmit($dataArray,$role);
         return $users;
     }
-    public function rolesupdate(){
-        dd('hello');
-        return view("auth.rolesupdate");
+    public function rolesindex($id){
+        $users['roles'] = Candidate::rolesindex($id);
+        // dd($users);
+        return view("auth.rolesindex",$users);
+    }
+    public function rolesupdate(Request $request){
+        // dd($request);
+        $data = Candidate::rolesupdate($request);
+        // dd($data);
+        return $data;
     }
 }

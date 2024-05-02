@@ -43,7 +43,7 @@
       </div> --}}
     
 <div>
-  <form id="rolesubmit" class="container" method="POST" name="rolesubmit" action="/sai_fitness/rolesubmit">
+  <form id="rolesubmit" class="container" method="POST" name="rolesubmit" action="/sai_fitness/rolesindex">
     @csrf
     <input type="hidden" name='user_id' id="user_id" value="{{ $menus['user_id'] }}">
     <table class="table container table-hover mt-2">
@@ -64,7 +64,7 @@
           @endphp --}}
                 <tr>
 
-                  <td><input type="checkbox" name="menuname" for="menu" onclick="return menucheckboxes('{{ $menu->Name }}', this.checked)" >{{ $menu->Name }}</td>
+                  <td><input type="checkbox" class="menu" name="menuname" for="menu" onclick="return menucheckboxes('{{ $menu->Name }}', this.checked)" >{{ $menu->Name }}</td>
                     {{-- <input type="checkbox" for="menu" onclick="randomFunction('{{ $menu->Name }}', this.checked)"> --}}
 
                     {{-- <td><input type="checkbox" class="submenu_checkbox">hello</td> --}}
@@ -81,7 +81,7 @@
                     <?php
                       $string = $menu->id . $submenu->id;
                     ?>
-                    <td><input type="checkbox" name="add[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}"></td>
+                    <td><input type="checkbox" class="submenu" name="add[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}"></td>
                      <td><input type="checkbox" name="edit[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}"></td>
                      <td><input type="checkbox" name="delete[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}"></td>
                     <td><input type="checkbox" name="view[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}"></td>
@@ -113,6 +113,38 @@
         });
     }
 </script>
+<script>
+  // Get the checkboxes
+  const checkClassCheckbox = document.querySelector('.submenu');
+  const dependentCheckboxes = document.querySelectorAll('.menu');
+  
+  // Add event listener to check-class checkbox
+  checkClassCheckbox.addEventListener('change', () => {
+      // Update dependent checkboxes based on check-class checkbox
+      dependentCheckboxes.forEach(checkbox => checkbox.checked = checkClassCheckbox.checked);
+  });
+</script>
+    {{-- <script>
+    // Get the checkboxes
+    var checkClassCheckbox = document.querySelector('.submenu');
+    var dependentCheckboxes = document.querySelectorAll('.menu');
+    
+    // Add event listener to check-class checkbox
+    checkClassCheckbox.addEventListener('change', function() {
+        // Check if the check-class checkbox is checked
+        if (this.checked) {
+            // If checked, check all dependent checkboxes
+            dependentCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = true;
+            });
+        } else {
+            // If unchecked, uncheck all dependent checkboxes
+            dependentCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+        }
+    });
+</script> --}}
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function () {
@@ -151,3 +183,68 @@ $("#rolesubmit").on('submit', (function(e) {
   </script>
 </body>
 </html>
+
+{{-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkbox Check</title>
+</head>
+<body>
+
+<input type="checkbox" class="check-class"> Check me!
+<input type="checkbox" class="dependent-checkbox"> Dependent Checkbox
+
+<script>
+    // Get the checkboxes
+    var checkClassCheckbox = document.querySelector('.check-class');
+    var dependentCheckboxes = document.querySelectorAll('.dependent-checkbox');
+    
+    // Add event listener to check-class checkbox
+    checkClassCheckbox.addEventListener('change', function() {
+        // Check if the check-class checkbox is checked
+        if (this.checked) {
+            // If checked, check all dependent checkboxes
+            dependentCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = true;
+            });
+        } else {
+            // If unchecked, uncheck all dependent checkboxes
+            dependentCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkbox Check</title>
+</head>
+<body>
+
+<input type="checkbox" class="check-class"> Check me!
+<input type="checkbox" class="dependent-checkbox"> Dependent Checkbox
+
+<script>
+    // Get the checkboxes
+    const checkClassCheckbox = document.querySelector('.check-class');
+    const dependentCheckboxes = document.querySelectorAll('.dependent-checkbox');
+    
+    // Add event listener to check-class checkbox
+    checkClassCheckbox.addEventListener('change', () => {
+        // Update dependent checkboxes based on check-class checkbox
+        dependentCheckboxes.forEach(checkbox => checkbox.checked = checkClassCheckbox.checked);
+    });
+</script>
+
+</body>
+</html> --}}

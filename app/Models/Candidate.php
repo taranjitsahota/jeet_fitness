@@ -125,6 +125,7 @@ class Candidate extends Model
         return $users;
     }
     public static function update1($request){
+        // dd($request);
          if(isset($request->file)){
             $fileName = time().'.'.$request->file->extension();
             $request->file->move(public_path('images'),$fileName);
@@ -163,6 +164,7 @@ class Candidate extends Model
            ->where('candidate_id',$request->id)
             ->insert($user1);
          }
+        //  dd($request);
      return 'done';
     }
     public static function dest($id){
@@ -305,13 +307,51 @@ class Candidate extends Model
                     'view' =>$view,
             ];
             $roleRecords[] = $roleRecord;
-            // dd($roleRecord);     
+            // dd($roleRecord);    
             
+          }
         }
-    }
         $users = DB::table('roles')
         ->insert($roleRecords);
         return $users;
+        }
+    }
+    public static function rolesindex($id){
+        $data = DB::table('candidates')
+        ->where('id',$id) 
+        ->first();
+        $users = DB::table("roles")
+            ->select("roles.menu_id", "roles.submenu_id", "roles.add", "roles.edit", "roles.delete", "roles.view", "menu.name as menu_name","submenu.list as submenu_name")
+            ->where('candidate_id',$id)
+            ->join('menu', 'roles.menu_id', '=', 'menu.id')
+            ->join('submenu','roles.submenu_id','=','submenu.id')
+            ->get();
+            // ->get();
+            $finalData = [
+                "user_id" =>$data->id,
+                "users" =>[...$users],
+            ];
+            // dd($finalData);
+        return $finalData;
+    }
+    public static function rolesupdate($request){
+        // dd($request);
+        $dataArray=[];
+        
+        $data=[
+            'add'=>$request->add ?? 0,
+            'edit'=>$request->edit ?? 0,
+            'delete'=>$request->delete ?? 0 ,
+            'view'=>$request->view ?? 0,
+        ];
+        // dd($data);
+        $users = DB::table('roles')
+        // ->select("id")
+        // ->get();
+        ->where('candidate_id',$request->user_id)
+        ->update($data);
+        dd($users);
+        // dd($request->id);
+        return $data;
     }
 }
-    }
