@@ -25,7 +25,6 @@
   </style>
 </head>
 <body>
-    
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid ">
           <a class="navbar-brand text-light" href="/sai_fitness/index">Registrations</a>
@@ -35,14 +34,16 @@
           </div>
         </div>
       </nav>
-      
       <h3 class="text-muted">Role Edit #<?php echo e($roles['user_id']); ?></h3>
 <div>
   <form id="rolesubmit" class="container" method="POST" name="rolesubmit" action="/sai_fitness/rolesupdate">
     <?php echo csrf_field(); ?>
+    
     <input type="hidden" name='user_id' id="user_id" value="<?php echo e($roles['user_id']); ?>">
+   <input type="hidden" name='menu_id' id="menu_id" value="<?php echo e(($roles['users'][0]->menu_id)); ?>">
+     <input type="hidden" name='submenu_id' id="submenu_id" value="<?php echo e($roles['users'][0]->submenu_id); ?>">
     <table class="table container table-hover mt-2">
-      <thead>
+      <thead> 
             <tr>
               <th scope="col">Menu</th>
               <th scope="col">add</th>
@@ -57,7 +58,7 @@
             <?php $__currentLoopData = $roles['users']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             
                 <tr>
-                    <td><input type="checkbox" ><?php echo e($user->menu_name); ?> </td>
+                    <td><input value="1"<?php echo e($user->menu_name == $user->menu_name ? 'checked' : ''); ?> type="checkbox" ><?php echo e($user->menu_name); ?> </td>
                 </tr>
                 <tr>
                     <td><?php echo e($user->submenu_name); ?></td>
@@ -73,7 +74,6 @@
       <button type="submit" value="submit" class="btn btn-dark mt-2" id="roleupdate">update</button>
     </form>
     </div>
-    
     
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>

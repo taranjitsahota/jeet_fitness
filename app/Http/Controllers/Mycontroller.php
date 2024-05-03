@@ -230,26 +230,21 @@ function registerPost(Request $request){
     public function rolesubmit(Request $request){
         // dd($request); 
 
-        $dataArray = [
-
-        // 'user_id'=>$request->user_id,
-        'add'=>$request->input('add'),
-        'edit'=>$request->input('edit'),
-        'delete'=>$request->input('delete'),
-        'view'=>$request->input('view')
-    ];
+     
     $role=$request->user_id;
-    $users['candidate']=Candidate::rolesubmit($dataArray,$role);
+    $users['candidate']=Candidate::rolesubmit($request->data,$role);
         return $users;
     }
     public function rolesindex($id){
         $users['roles'] = Candidate::rolesindex($id);
+                $users['menus']=Candidate::roles($id);
         // dd($users);
         return view("auth.rolesindex",$users);
     }
-    public function rolesupdate(Request $request){
+    public function rolesupdate($dataArray, $userID){
         // dd($request);
-        $data = Candidate::rolesupdate($request);
+        
+        $data = Candidate::rolesupdate($dataArray, $userID);
         // dd($data);
         return $data;
     }

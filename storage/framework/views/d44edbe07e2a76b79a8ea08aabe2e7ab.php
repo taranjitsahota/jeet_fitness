@@ -131,7 +131,7 @@ $("#rolesubmit").on('submit', (function(e) {
 
   $.ajax({
       type: "POST",
-      url: "<?php echo e(url('/rolesindex')); ?>",
+      url: "<?php echo e(url('/rolesubmit')); ?>",
       data: new FormData(this),
       dataType: 'json',
       cache: false,

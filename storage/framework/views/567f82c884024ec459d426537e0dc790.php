@@ -74,10 +74,10 @@
                     <?php
                       $string = $menu->id . $submenu->id;
                     ?>
-                    <td><input type="checkbox" class="submenu" name="add[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
-                     <td><input type="checkbox" name="edit[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
-                     <td><input type="checkbox" name="delete[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
-                    <td><input type="checkbox" name="view[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>]" value="1" class="<?php echo e($menu->Name); ?>"></td>
+                    <td><input type="checkbox" class="submenu" name="data[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>][add]" value="1" class="<?php echo e($menu->Name); ?>"></td>
+                     <td><input type="checkbox" name="data[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>][edit]" value="1" class="<?php echo e($menu->Name); ?>"></td>
+                     <td><input type="checkbox" name="data[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>][delete]" value="1" class="<?php echo e($menu->Name); ?>"></td>
+                    <td><input type="checkbox" name="data[<?php echo e($menu->id); ?>][<?php echo e($submenu->id); ?>][view]" value="1" class="<?php echo e($menu->Name); ?>"></td>
               </tr>
 
           <?php  } ?>
@@ -89,16 +89,10 @@
     </form>
     </div>
     
-    <script>
+    
+    
 
-// const randomFunction = (className) => {
-//           allSelects = document.querySelectorAll(`.${className}`)
-//           subMenuCheckboxes.forEach(checkbox => {
-//              checkbox.checked = isChecked;
-//              console.log(allSelects)
-//             });
-//         }
-        
+  <script>
     const menucheckboxes = (className, isChecked) => {
         const subMenuCheckboxes = document.querySelectorAll(`.${className}`);
         subMenuCheckboxes.forEach(checkbox => {

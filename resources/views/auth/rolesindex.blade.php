@@ -25,6 +25,7 @@
   </style>
 </head>
 <body>
+    {{-- <h1>Users</h1> --}}
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid ">
           <a class="navbar-brand text-light" href="/sai_fitness/index">Registrations</a>
@@ -34,11 +35,17 @@
           </div>
         </div>
       </nav>
-      <h3 class="text-muted">Role Edit #{{ $roles['user_id'] }}</h3>
+      {{-- <div class="container">
+        <a href="/create" class="btn btn-dark mt-2">New Registration</a>
+      </div>
+      <div class="container">
+        <a href="{{ url("/logout") }}" class="btn btn-dark mt-2">Logout</a>
+      </div> --}}
+    
 <div>
-  <form id="rolesubmit" class="container" method="POST" name="rolesubmit" action="/sai_fitness/rolesupdate">
+  <form id="rolesubmit" class="container" method="POST" name="rolesubmit" action="/sai_fitness/rolesindex">
     @csrf
-    <input type="hidden" name='user_id' id="user_id" value="{{ $roles['user_id'] }}">
+    <input type="hidden" name='user_id' id="user_id" value="{{ $menus['user_id'] }}">
     <table class="table container table-hover mt-2">
       <thead>
             <tr>
@@ -51,27 +58,160 @@
           </thead>
           <tbody>
           
-            
-            @foreach ($roles['users'] as $user )
-            
+            @foreach ($menus['roles'] as $menu)
+            @php
+            // dd($roles);
+            $menuArray = [];
+            foreach( $roles['users'] as $role){
+                array_push($menuArray,$role->menu_id );
+            }
+            // dd($menuArray);
+            $submenuArray = [];
+            foreach( $roles['users'] as $role){
+                array_push($submenuArray,$role->submenu_id );
+            }
+            // dd($submenuArray);
+            $add = [];
+            foreach( $roles['users'] as $role){
+              $add[$role->submenu_id]= $role->add;
+            }
+            $edit = [];
+            foreach( $roles['users'] as $role){
+              $edit[$role->submenu_id]= $role->edit;
+            }
+            // dd($edit);
+            $delete = [];
+            foreach( $roles['users'] as $role){
+              $delete[$role->submenu_id]= $role->delete;
+            }
+            // dd($delete);
+            $view = [];
+            foreach( $roles['users'] as $role){
+              $view[$role->submenu_id]= $role->view;
+            }
+            // dd($view);
+            // dd($add);
+          //   $name='Taranjit';
+          //   $data=[
+          //   'name'=>$name
+          // ];
+          // dd($data)
+          @endphp
+                  @if(in_array($menu->id,$menuArray))
                 <tr>
-                    <td><input type="checkbox" >{{ $user->menu_name }} </td>
+
+                  <td>
+                      <input checked type="checkbox" class="menu" name="menuname" for="menu" onclick="return menucheckboxes('{{ $menu->Name }}', this.checked)" >{{ $menu->Name }}</td>
+                      
+                    
+                    {{-- <input @if (in_array($menu->id,$menuArray)) checked @endif  type="checkbox" class="menu" name="menuname" for="menu" onclick="return menucheckboxes('{{ $menu->Name }}', this.checked)" >{{ $menu->Name }}</td> --}}
+                    {{-- <input type="checkbox" for="menu" onclick="randomFunction('{{ $menu->Name }}', this.checked)"> --}}
+
+                    {{-- <td><input type="checkbox" class="submenu_checkbox">hello</td> --}}
                 </tr>
-                <tr>
-                    <td>{{ $user->submenu_name }}</td>
                 
-                    <td><input type="checkbox" name="add" value="1"{{ $user->add =='1' ? 'checked' : '' }}></td>
-                     <td><input type="checkbox" name="edit" value="1"{{ $user->edit =='1' ? 'checked' : '' }}></td>
-                     <td><input type="checkbox" name="delete" value="1"{{ $user->delete =='1' ? 'checked' : '' }}></td>
-                    <td><input type="checkbox" name="view" value="1"{{ $user->view =='1' ? 'checked' : '' }}></td>
-              </tr>
-            @endforeach 
+                <?php $submenus = App\Http\Controllers\MyController::roles1($menu->id);
+                // dd($submenus);
+                foreach ($submenus as $submenu)
+                { ?>
+                    @if(in_array($submenu->id,$submenuArray))
+                  <tr>
+                    <td>
+                      {{   $submenu->list; }} 
+                    </td>
+                   
+                    <?php
+                      $string = $menu->id . $submenu->id;
+                    ?>
+                    <td>
+                      @if($add[$submenu->id] == 1) 
+                      <input type="checkbox" class="submenu" name="add[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      @else
+                      <input type="checkbox" class="submenu" name="add[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      @endif
+                    </td>
+                     <td>
+                      @if($edit[$submenu->id] == 1)
+                      <input type="checkbox" name="edit[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      @else
+                      <input type="checkbox" name="edit[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      @endif
+                    </td>
+                     <td>
+                      @if($delete[$submenu->id] == 1)
+                      <input type="checkbox" name="delete[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      @else
+                      <input type="checkbox" name="delete[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      @endif
+                    </td>
+                    <td>
+                      @if($view[$submenu->id] == 1)
+                      <input type="checkbox" name="view[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      @else
+                      <input type="checkbox" name="view[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      @endif
+                    </td>
+                  </tr>
+                  @endif
+              <?php  } ?>
+              @endif
+            @endforeach
+           
           </tbody>
       </table>
-      <button type="submit" value="submit" class="btn btn-dark mt-2" id="roleupdate">update</button>
+      <button type="submit" value="submit" class="btn btn-dark mt-2" id="rolesubmit">Update</button>
     </form>
     </div>
     
+    {{-- <script>
+
+// const randomFunction = (className) => {
+//           allSelects = document.querySelectorAll(`.${className}`)
+//           subMenuCheckboxes.forEach(checkbox => {
+//              checkbox.checked = isChecked;
+//              console.log(allSelects)
+//             });
+//         }
+        
+//     const menucheckboxes = (className, isChecked) => {
+//         const subMenuCheckboxes = document.querySelectorAll(`.${className}`);
+//         subMenuCheckboxes.forEach(checkbox => {
+//             checkbox.checked = isChecked;
+//         });
+//     }
+// </script>
+{{-- <script>
+  // Get the checkboxes
+  const checkClassCheckbox = document.querySelector('.submenu');
+  const dependentCheckboxes = document.querySelectorAll('.menu');
+  
+  // Add event listener to check-class checkbox
+  checkClassCheckbox.addEventListener('change', () => {
+      // Update dependent checkboxes based on check-class checkbox
+      dependentCheckboxes.forEach(checkbox => checkbox.checked = checkClassCheckbox.checked);
+  });
+</script> --}}
+    {{-- <script>
+    // Get the checkboxes
+    var checkClassCheckbox = document.querySelector('.submenu');
+    var dependentCheckboxes = document.querySelectorAll('.menu');
+    
+    // Add event listener to check-class checkbox
+    checkClassCheckbox.addEventListener('change', function() {
+        // Check if the check-class checkbox is checked
+        if (this.checked) {
+            // If checked, check all dependent checkboxes
+            dependentCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = true;
+            });
+        } else {
+            // If unchecked, uncheck all dependent checkboxes
+            dependentCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+        }
+    });
+</script> --}}
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function () {
@@ -85,7 +225,7 @@ $("#rolesubmit").on('submit', (function(e) {
 
   $.ajax({
       type: "POST",
-      url: "{{ url('/rolesupdate') }}",
+      url: "{{ url('/rolesubmit') }}",
       data: new FormData(this),
       dataType: 'json',
       cache: false,
