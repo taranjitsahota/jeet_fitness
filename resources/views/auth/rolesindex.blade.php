@@ -125,30 +125,30 @@
                     ?>
                     <td>
                       @if($add[$submenu->id] == 1) 
-                      <input type="checkbox" class="submenu" name="add[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      <input type="checkbox" class="submenu" name="data[{{ $menu->id }}][{{ $submenu->id }}][add]" value="1" checked class="{{ $menu->Name }}">
                       @else
-                      <input type="checkbox" class="submenu" name="add[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      <input type="checkbox" class="submenu" name="data[{{ $menu->id }}][{{ $submenu->id }}][add]" value="1" class="{{ $menu->Name }}">
                       @endif
                     </td>
                      <td>
                       @if($edit[$submenu->id] == 1)
-                      <input type="checkbox" name="edit[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      <input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][edit]" value="1" checked class="{{ $menu->Name }}">
                       @else
-                      <input type="checkbox" name="edit[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      <input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][edit]" value="1" class="{{ $menu->Name }}">
                       @endif
                     </td>
                      <td>
                       @if($delete[$submenu->id] == 1)
-                      <input type="checkbox" name="delete[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      <input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][delete]" value="1" checked class="{{ $menu->Name }}">
                       @else
-                      <input type="checkbox" name="delete[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      <input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][delete]" value="1" class="{{ $menu->Name }}">
                       @endif
                     </td>
                     <td>
                       @if($view[$submenu->id] == 1)
-                      <input type="checkbox" name="view[{{ $menu->id }}][{{ $submenu->id }}]" value="1" checked class="{{ $menu->Name }}">
+                      <input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][view]" value="1" checked class="{{ $menu->Name }}">
                       @else
-                      <input type="checkbox" name="view[{{ $menu->id }}][{{ $submenu->id }}]" value="1" class="{{ $menu->Name }}">
+                      <input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][view]" value="1" class="{{ $menu->Name }}">
                       @endif
                     </td>
                   </tr>

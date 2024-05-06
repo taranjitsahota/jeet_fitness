@@ -81,7 +81,7 @@
                     <?php
                       $string = $menu->id . $submenu->id;
                     ?>
-                    <td><input type="checkbox" class="submenu" name="data[{{ $menu->id }}][{{ $submenu->id }}][add]" value="1" class="{{ $menu->Name }}"></td>
+                    <td><input type="checkbox"  name="data[{{ $menu->id }}][{{ $submenu->id }}][add]" value="1" class="{{ $menu->Name }}"></td>
                      <td><input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][edit]" value="1" class="{{ $menu->Name }}"></td>
                      <td><input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][delete]" value="1" class="{{ $menu->Name }}"></td>
                     <td><input type="checkbox" name="data[{{ $menu->id }}][{{ $submenu->id }}][view]" value="1" class="{{ $menu->Name }}"></td>
