@@ -241,11 +241,10 @@ function registerPost(Request $request){
         // dd($users);
         return view("auth.rolesindex",$users);
     }
-    public function rolesupdate($dataArray, $userID){
+    public function rolesupdate(Request $request){
         // dd($request);
-        
-        $data = Candidate::rolesupdate($dataArray, $userID);
-        // dd($data);
-        return $data;
+        $role=$request->user_id;
+        $users['candidate']=Candidate::rolesupdate($request->data,$role);
+            return $users;
     }
 }

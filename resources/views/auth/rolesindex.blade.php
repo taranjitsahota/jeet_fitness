@@ -95,7 +95,7 @@
           //   $data=[
           //   'name'=>$name
           // ];
-          // dd($data)
+          // dd($data);
           @endphp
                   @if(in_array($menu->id,$menuArray))
                 <tr>
@@ -225,7 +225,7 @@ $("#rolesubmit").on('submit', (function(e) {
 
   $.ajax({
       type: "POST",
-      url: "{{ url('/rolesubmit') }}",
+      url: "{{ url('/rolesupdate') }}",
       data: new FormData(this),
       dataType: 'json',
       cache: false,

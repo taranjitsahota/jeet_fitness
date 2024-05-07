@@ -317,7 +317,7 @@ class Candidate extends Model
                 $edit = isset($submenus['edit']) ? 1 : 0;
                 $delete = isset($submenus['delete']) ? 1 : 0;
                 $view = isset($submenus['view']) ? 1 : 0;
-                $roleRecord = [
+                $roleRecord[] = [
                     'candidate_id' => $userID,
                     'menu_id' => $menu_id,
                     'submenu_id' => $submenu_id,
@@ -326,14 +326,16 @@ class Candidate extends Model
                     'delete' => $delete,
                     'view' => $view,
                 ];
-                $roleRecords[] = $roleRecord;
+                // $roleRecords[] = $roleRecord;
+                $users = DB::table('roles')
+        ->insert($roleRecord);
+    
             }
         }
-
-   
-        $users = DB::table('roles')
-            ->insert($roleRecords);
         return $users;
+        // $users = DB::table('roles')
+        //     ->insert($roleRecords);
+        // return $users;
     }
     public static function rolesindex($id)
     {
@@ -354,30 +356,42 @@ class Candidate extends Model
         // dd($finalData);
         return $finalData;
     }
-    public static function rolesupdate($request)
+    public static function rolesupdate($dataArray, $userID)
     {
-        // dd($request);
-        $dataArray = [];
-        // $rolesdelete=DB::table('roles')
-        // ->where('candidate_id',$request->user_id)
-        // ->delete();
+        $roleRecords = [];
+        // dd($dataArray);
+        DB::table("roles")
+            ->where("candidate_id", $userID)
+            ->delete();
 
-        // foreach($dataArray as $role){
-        dd($dataArray);
-        $dataArray = [
-            'candidate_id' => $request->user_id,
-            'add' => $request->add ?? 0,
-            'edit' => $request->edit ?? 0,
-            'delete' => $request->delete ?? 0,
-            'view' => $request->view ?? 0,
-            'menu_id' => $request->menu_id,
-            'submenu_id' => $request->submenu_id
-        ];
-        // }
         // dd($dataArray);
+
+        foreach ($dataArray as $menu_id => $menus) {
+            // dd($menu_id,$menus);
+
+            foreach ($menus as $submenu_id => $submenus) {
+
+
+                $add = isset($submenus['add']) ? 1 : 0;
+                $edit = isset($submenus['edit']) ? 1 : 0;
+                $delete = isset($submenus['delete']) ? 1 : 0;
+                $view = isset($submenus['view']) ? 1 : 0;
+                $roleRecord = [
+                    'candidate_id' => $userID,
+                    'menu_id' => $menu_id,
+                    'submenu_id' => $submenu_id,
+                    'add' => $add,
+                    'edit' => $edit,
+                    'delete' => $delete,
+                    'view' => $view,
+                ];
+                $roleRecords[] = $roleRecord;
+            }
+        }
+
+   
         $users = DB::table('roles')
-            ->insert($dataArray);
-        // dd($dataArray);
-        return $dataArray;
+            ->insert($roleRecords);
+        return $users;
     }
 }
